@@ -1,0 +1,17 @@
+<li id="chat">
+   <a class="avt fl" target="_blank" href="/user/#(loginAccount.id)">
+       <img src="#(loginAccount.avatar)">
+   </a>
+   <div class="chat_body">
+       <h5>
+           <div class="fl"><a class="chat_name" href="/user/#(loginAccount.id)">#(loginAccount.nickName)</a><span>#date(reply.createAt, "yyyy-MM-dd HH:mm:ss")</span></div>
+           
+            <div class="clear"></div>
+        </h5>
+        <div class="chat_p">
+            <div class="chat_pct">#(reply.content)</div> 
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="chat_reply"></div>
+</li>

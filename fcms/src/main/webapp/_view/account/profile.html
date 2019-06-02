@@ -1,0 +1,66 @@
+#@layout()
+
+#define css()
+<style>
+.layui-tab-title li {
+    font-size: 16px;
+}
+</style>
+#end
+
+#define main()
+<div class="wrap" id="wrap">
+	<div class="container">
+		<div class="row">
+			<div class="main clearfix">
+				<div class="col-xs-12 col-md-12">
+					 
+					<div class="layui-tab layui-tab-brief" lay-filter="type">
+					  <ul class="layui-tab-title">
+					    <li class="layui-this" lay-id="1">基本信息</li>
+					    <li lay-id="2">修改头像</li>
+					    <li lay-id="3">修改密码</li>
+					  </ul>
+					  <div class="layui-tab-content" style="height: 100px;">
+					    <div class="layui-tab-item layui-show">
+					    	#include("/_view/account/common/base_info.html")
+					    </div>
+					    <div class="layui-tab-item">
+					    	#include("/_view/account/common/avatar.html")
+					    </div>
+					    <div class="layui-tab-item">
+					    	#include("/_view/account/common/password.html")
+					    </div>
+					  </div>
+					</div> 
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+#end
+
+#define js()
+<script type="text/javascript" src="/assets/jcrop/js/jquery.Jcrop.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	changeTab();
+});
+
+//tab切换
+function changeTab() {
+	layui.use('element', function(){
+	  var element = layui.element();
+	  
+	  //获取hash来切换选项卡，假设当前地址的hash为lay-id对应的值
+	  var layid = location.hash.replace(/^#type=/, '');
+	  element.tabChange('type', layid); //假设当前地址为：http://a.com#type=2，那么选项卡会自动切换到“发送消息”这一项
+	  
+	  //监听Tab切换，以改变地址hash值
+	  element.on('tab(type)', function(){
+	    location.hash = 'type='+ this.getAttribute('lay-id');
+	  });
+	});
+}
+</script>
+#end

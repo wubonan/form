@@ -1,0 +1,34 @@
+<div class="shadow-box">
+    <div class="filter">
+        <ul class="">
+            <li><a class="active" href="/home/notifies">通知</a></li>
+            <li><a href="/home/referMe">@提到我</a></li>
+        </ul>
+    </div>
+    <!-- tab panes -->
+    <div class="posts-list">
+        #for(msg : msgPage.list)
+        <div class="posts-item" id="loop-1265">
+            <div class="blog-rank">
+                <div class="user" title="#(msg.nickName)">
+                    <a href="/user/#(msg.sender)">
+                        <img class="img-circle" src="#(msg.avatar)">
+                    </a>
+                </div>
+            </div>
+            <div class="summary">
+                <h2 class="title">#(msg.nickName)</h2>
+                <div class="excerpt wordbreak">
+                                        #(msg.content)
+                                    </div>
+                
+                <div class="foot-block clearfix">
+                    <div class="author">
+                        <time>#(timeKit.formatOfDate(null, msg.createAt))前</time>
+                    </div>
+                </div>
+            </div>
+        </div>
+        #end
+    </div>
+</div>

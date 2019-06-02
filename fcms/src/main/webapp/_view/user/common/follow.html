@@ -1,0 +1,25 @@
+<div class="personal-course">
+	<div class="course-list">
+		<div class="concern-list">
+			<div class="row">
+				<div class="friends">
+					#for(x : followPage.getList())
+					<div>
+						<a href="/user/#(x.id)"> <img src="#(x.avatar)">
+						</a> <a href="/user/#(x.id)" title="#(x.nickName)">#(x.nickName)</a> <span id="#(x.id)">&nbsp;</span>
+					</div>
+					#end
+					<nav class="text-center">
+						<nav class=" text-center">
+							<ul class="pagination">
+								<!-- 分页 -->
+							</ul>
+						</nav>
+					</nav>
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>

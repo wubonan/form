@@ -1,0 +1,31 @@
+<ul id="chat_container" class="its">
+	<li style="display: none;"></li>
+	#for(reply : replyPage.list)
+	<li id="chat151">
+	    <a class="avt fl" target="_blank" href="/user/#(reply.userId)">
+	        <img src="#(reply.avatar)">
+	    </a>
+	    <div class="chat_body">
+	        <h5>
+	            <div class="fl"><a class="chat_name" href="/user/#(reply.userId)">#(reply.nickName)</a><span>#date(reply.createAt, "yyyy-MM-dd HH:mm:ss")</span></div>
+	            <div class="clear"></div>
+	        </h5>
+	        <div class="chat_p">
+	            <div class="chat_pct">#(reply.content)</div> 
+	        </div>
+	    </div>
+	    <div class="clear"></div>
+	    <div class="chat_reply"></div>
+	</li>
+	#end
+</ul>
+#if(replyPage.list)
+<nav class="text-center page"> 
+    <nav class=" text-center"> 
+     <ul class="pagination"> 
+      <!-- 分页 -->
+	  #@paginate(replyPage.pageNumber, replyPage.totalPage, "?p=")
+     </ul> 
+    </nav> 
+</nav>
+#end

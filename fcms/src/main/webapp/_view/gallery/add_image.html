@@ -1,0 +1,219 @@
+#@layout()
+<!-- 
+注意：使用webuploader时，表单的参数需要在点击提交按钮的时候额外获取并提交，否则ajaxForm提交不了表单数据。
+添加方法：在$upload.on('click', function() {});中添加下面代码
+  	var title = $("#title").val();
+  	var content = $("#content").val()
+  	uploader.options.formData = { "content": content, "title": title};
+ 这里还要注意的是，上传图片是一次上传一张，如果想把表单数据和图片信息一起写到数据库，需要先提交数据，然后将
+ 返回的图片路径拼接之后和表单一起提交。
+ 另外：表单包含enctype="multipart/form-data"时，一定要先获取文件，否则其他参数都会获取不到，要么就不加
+ enctype="multipart/form-data"
+ -->
+#define css()
+<link rel="stylesheet" type="text/css" href="/assets/css/tag/jquery.tagsinput.css" />
+<link rel="stylesheet" type="text/css" href="/assets/css/tag/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="/assets/webuploader-0.1.5/webuploader.css">
+<link rel="stylesheet" type="text/css" href="/assets/webuploader-0.1.5/webuploader-demo.css">
+#end
+
+#define main()
+<div class="wrap" id="wrap">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<i class="fa fa-pencil-square"></i>发图片
+					</div>
+				
+					<div class="panel-body">
+						<div id="message"></div>
+						<form id="gallery-form" action="/gallery/uploadImg" method="post" enctype="multipart/form-data">
+							<div class="form-group">
+								<div class="col-sx-12 col-md-12">
+									<div class="ibox-content">
+				                        <div class="page-container">
+				                            <p>您可以尝试文件拖拽，使用QQ截屏工具，然后激活窗口后粘贴，或者点击添加图片按钮。注意：选择好图片之后先点"上传图片"，图片上传好后再发布文章.</p>
+				                            <div id="uploader" class="wu-example">
+				                                <div class="queueList">
+				                                    <div id="dndArea" class="placeholder">
+				                                        <div id="filePicker"></div>
+				                                        <p>或将照片拖到这里，单次最多可选300张</p>
+				                                    </div>
+				                                </div>
+				                                <div class="statusBar" style="display:none;">
+				                                    <div class="progress">
+				                                        <span class="text">0%</span>
+				                                        <span class="percentage"></span>
+				                                    </div>
+				                                    <div class="info"></div>
+				                                    <div class="btns">
+				                                        <div id="filePicker2"></div>
+				                                        <button class="uploadBtn">上传图片</button>
+				                                    </div>
+				                                </div>
+				                            </div>
+				                        </div>
+				                    </div>
+								</div>
+								
+							</div>
+						</form>
+						<form class="form-horizontal" id="gallery-detail-form" action="/gallery/save" method="post">
+							<div class="form-group">
+								<label for="id_title" class="col-sm-2 control-label no-padding-right">标题</label>
+								<div class="col-sm-8" id="id_title">
+									<input type="text" class="form-control" id="title" name="title" maxlength="100" required>
+								</div>
+							</div>
+							<input type="hidden" class="form-control" id="images" name="images" required>
+							
+							<div class="form-group">
+								<label for="desc" class="col-sm-2 control-label no-padding-right">内容</label>
+								<div class="col-sm-8" id="desc">
+									  <div class="content-box">
+										  <script id="container_target" name="articleContent"  type="text/plain"></script>
+									  </div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="btags" class="col-sm-2 control-label no-padding-right">标签</label>
+								<div class="col-sm-8" id="btags">
+									<input id="tags_1" type="text" class="tags" name="tags" />
+									<p class="help-block" style="font-size: 12px;">添加相关标签，用逗号或空格分隔 (最多4个，只取前4个标签).</p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label no-padding-right">分类</label>
+								<div class="col-sm-3">
+									<select class="form-control" id="articleType" name="articleType">
+										#for(type : aTypes)
+										<option value="#(type.id)">#(type.article_type)</option>
+										#end
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label no-padding-right">访问权限</label>
+								<div class="col-sm-3">
+									<select class="form-control" id="privacy" name="privacy">
+										<option value="0">公开</option>
+										<option value="1">私密</option>
+									</select>
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group">
+									<div class="text-center">
+										<button type="submit" class="btn btn-primary state-pedding">发布图片文章</button>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+#end
+
+#define js()
+<script type="text/javascript">
+    //添加全局站点信息
+    var BASE_URL = 'assets/webuploader-0.1.5';
+    //图片上传路径
+    var images = "";
+</script>
+
+<script type="text/javascript" src="/assets/js/tag/jquery-1.8.0.min.js"></script> 
+<script type="text/javascript" src="/assets/js/tag/jquery.tagsinput.js"></script> 
+<script type="text/javascript" src="/assets/js/tag/jquery-ui.min.js"></script> 
+<script src="/assets/webuploader-0.1.5/webuploader.min.js"></script>
+<script src="/assets/webuploader-0.1.5/webuploader-demo.js"></script>
+<script type="text/javascript" src="/assets/jquery_form/jquery.form.min.js"></script>  
+#include("/_view/blog/common/detail_info_editor.html") 
+<script type="text/javascript">
+//设置上传类型为gallery
+ue.ready(function() {
+	ue.execCommand('serverparam', {
+		'uploadType': 'gallery'
+	});
+});
+
+$(function() {
+	var tagNum = $('.tag').size();
+	if (tagNum < 4) {
+		$('#tags_1').tagsInput({width:'auto'});
+	}
+	//文件上传表单
+	$("#gallery-form").ajaxForm({
+		dataType: "json",
+		success: function(ret) {
+			// 业务层验证成功
+			if(ret.isOk) {
+				layer.msg(ret.msg, {
+					icon: 6
+					, shift: 6
+					, shade: 0.3
+					, time: 8500
+					, offset: "165px"
+					, closeBtn: 1
+					, shadeClose: true
+				});
+				//跳转到文章详情
+				
+				return ;
+			}
+			// 业务层验证失败
+			else if (ret.isFail) {
+				layer.msg(ret.msg, {
+					icon: 5
+					, shift: 6
+					, shade: 0.3
+					, time: 8500
+					, offset: "165px"
+					, closeBtn: 1
+					, shadeClose: true
+				});
+				return ;
+			}
+		}
+		, error: function(ret) { }              // ret.status != 200 时回调
+		, complete: function(ret) { }       // 无论是 success 还是 error，最终都会被回调
+	});
+	//文件详细表单
+	$("#gallery-detail-form").ajaxForm({
+		dataType: "json",
+		success: function(ret) {
+			// 业务层验证成功
+			if(ret.isOk) {
+				layer.msg(ret.msg, {
+					icon: 6
+					, shift: 6
+					, shade: 0.3
+					, time: 8500
+					, offset: "165px"
+					, closeBtn: 1
+					, shadeClose: true
+				});
+				//跳转到文章详情
+				location.href = "/view/gallery/"+ret.postId;
+				return ;
+			}
+			// 业务层验证失败
+			else if (ret.isFail) {
+				layer.alert(ret.msg);
+				return ;
+			}
+		}
+		, error: function(ret) { }              // ret.status != 200 时回调
+		, complete: function(ret) { }       // 无论是 success 还是 error，最终都会被回调
+	});
+});
+
+
+</script>
+#end

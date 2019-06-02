@@ -1,0 +1,113 @@
+
+#@adminLayout()
+
+
+#define adminMain()
+<section class="content-header">
+      <h1>
+        系统设置
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="/admin"><i class="fa fa-dashboard"></i> 主页</a></li>
+        <li><a href="/admin/sys">系统设置</a></li>
+      </ol>
+</section>
+<section class="content">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">系统设置SEO优化</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form role="form" id="site-form" method="post" action="/admin/sys/save" enctype="multipart/form-data">
+              <div class="box-body">
+                <div class="form-group">
+                  <label for="path">网站Title</label>
+                  <input type="text" name="siteInfo.title" class="form-control" id="path" placeholder="#(siteInfo.title)" value="#(siteInfo.title)">
+                </div>
+                <div class="form-group">
+                  <label for="path">网站keywords</label>
+                  <input type="text" name="siteInfo.keywords" class="form-control" id="path" placeholder="#(siteInfo.keywords)" value="#(siteInfo.keywords)">
+                </div>
+                <div class="form-group">
+                  <label for="path">网站description</label>
+                  <input type="text" style="height: 80px;" name="siteInfo.description" class="form-control" id="path" placeholder="#(siteInfo.description)" value="#(siteInfo.description)">
+                </div>
+                <div class="form-group">
+                  <label for="path">网站LOGO</label>
+                  <input type="file" name="logo" class="form-control" id="path" placeholder="" value="#(siteInfo.logo)">
+                </div>
+              </div>
+              <!-- /.box-body -->
+
+              <div class="box-footer">
+                <button type="submit" class="btn btn-primary">保存</button>
+              </div>
+            </form>
+          </div>
+		</div>
+	</div>
+</section>
+#end
+
+#define js()
+<script type="text/javascript" src="/assets/jquery_form/jquery.form.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#site-form").ajaxForm({
+			dataType: "json"
+			, beforeSubmit: function(formData, jqForm, options) {     
+				// 表单提交之前回调                                 
+				// do nothing
+			}
+			, success: function(ret) {
+				console.log("ret:"+ret);
+				// 业务层验证成功
+				if(ret.isOk) {
+					layer.msg(ret.msg, {
+								icon: 6
+								, shift: 6
+								, shade: 0.3
+								, time: 8500
+								, offset: "165px"
+								, closeBtn: 1
+								, shadeClose: true
+							}, function() {
+								//跳转
+								window.location.href="/admin/sys";
+							}
+					);
+					return ;
+				}
+				
+				// 业务层验证失败
+				if (ret.isFail) {
+					layer.msg(ret.msg, {
+								shift: 6
+								, shade: 0.3
+								, time: 8500
+								, offset: "165px"
+								, closeBtn: 1
+								, shadeClose: true
+							} , function() {
+								//暂时不加验证码
+								//updateCaptcha();
+							}
+					);
+					return ;
+				}
+		
+				
+			}
+			, error: function(ret) {console.log("error") }              // ret.status != 200 时回调
+			, complete: function(ret) {console.log("complete")  }       // 无论是 success 还是 error，最终都会被回调
+		});
+	});
+
+
+</script>
+#end
+
+

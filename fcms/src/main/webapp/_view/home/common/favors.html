@@ -1,0 +1,80 @@
+<div class="shadow-box">
+	<div class="filter">
+		<ul class="">
+			<li><a class="active" href="/home/favors">我的喜欢</a></li>
+		</ul>
+	</div>
+	<!-- tab panes -->
+	<div class="posts-list">
+		#for(post : postPage.list)
+		<div class="posts-item" id="loop-4535">
+			<div class="posts-info clearfix">
+				<div class="users">
+					<a href="/user/#(post.userId)">
+						<div class="avatar">
+							<img class="img-circle _img" src="#(post.avatar)">
+						</div>
+						
+					</a>
+					#if(post.post_type == 1)
+						<a href="/view/article/#(post.id)">
+					#elseif(post.post_type == 2)
+						<a href="/view/video/#(post.id)">
+					#elseif(post.post_type == 3)
+						<a href="/view/gallery/#(post.id)">
+					#elseif(post.post_type == 4)
+						<a href="/view/question/#(post.id)">
+					#end
+					<div class="info">
+						<strong class="title">	    	
+						#if(post.postType == 1)	
+						<span class="label label-success">文</span>
+						#elseif(post.postType == 2)
+						<span class="label label-success">视</span>
+						#elseif(post.postType == 3)
+						<span class="label label-success">图</span>
+						#elseif(post.postType == 4)
+						<span class="label label-success">问</span>
+						#end
+							#(post.title)
+							</strong>
+						<time>#(post.nickName)  #(timeKit.formatOfDate(null, post.createAt))前 </time>
+					</div>
+					</a>
+				</div>
+				<div class="counts">
+					<span class="act"><i class="fa fa-heart-o"></i> #(post.likeCount)</span>
+					<span class="act"><i class="fa fa-comment-o"></i> #(post.comments)</span>
+				</div>
+			</div>
+			<div class="summary">
+				#if(post.post_type == 1)
+					<a href="/view/article/#(post.id)">
+				#elseif(post.post_type == 2)
+					<a href="/view/video/#(post.id)">
+				#elseif(post.post_type == 3)
+					<a href="/view/gallery/#(post.id)">
+				#elseif(post.post_type == 4)
+					<a href="/view/question/#(post.id)">
+				#end
+					<div class="excerpt wordbreak hidden-xs">#(post.summary)</div>
+				</a>
+				<!--前端图片显示样式-->
+				
+				<div class="foot-block clearfix">
+                    <div class="pull-right hidden-xs">
+                        <a class="act" href="javascript:void(0);" data-evt="unfavor" data-id="4535">取消喜欢</a>
+                    </div>
+				</div>
+			</div>
+		</div>
+		#end
+		<!--分页-->
+		<nav class="text-center page"> 
+		     <ul class="pagination"> 
+		      <!-- 分页 -->
+			  #@paginate(postPage.pageNumber, postPage.totalPage, "?p=")
+		     </ul>    
+		</nav>
+	</div>
+</div>

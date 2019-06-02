@@ -1,0 +1,10 @@
+<div class="widget-box shadow-box">
+	<div class="title">
+		<h3><i class="fa fa-tags"></i> 热门标签</h3>
+	</div>
+	<ul class="tags m10" style="float: none;">
+		#for(tag : hotTags)
+		<li class="mb6"><a href="/tags/view/#(tag.name)" class="tag tag-sm">#(tag.name)</a></li>
+		#end
+	</ul>
+</div>

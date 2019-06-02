@@ -1,0 +1,117 @@
+.sign{
+	background-image: url("/assets/images/bg2.jpg");
+}
+
+.sign .login{
+	width: 400px;
+	padding: 30px 60px 40px;
+	text-align: center;
+	margin: 40px auto 20px;
+	background-color: #fff;
+	overflow: hidden;
+	border-radius: 10px;
+}
+.sign .login h1 {
+    font-size: 24px;
+    margin-top: 15px;
+    margin-bottom: 25px;
+    color: #7c838c;
+    font-weight: normal;
+}
+
+label{
+	font-weight: normal;
+}
+
+.sign .login form {
+    text-align: left;
+    padding: 0;
+}
+.sign .login form input[type=submit] {
+    float: right;
+}
+
+.sign .login .btn {
+    font-size: 14px;
+}
+.sign .border {
+    border-radius: 0;
+}
+.sign .login .forgot {
+    font-size: 14px;
+    padding: 10px 0;
+    color: #999;
+    display: inline-block;
+}
+.forgot a{
+	color:#009688;
+}
+
+.with-line {
+    font-size: 16px;
+    color: #999;
+    margin: 15px auto;
+    position: relative;
+    text-align: center;
+}
+.with-line:before {
+    content: "";
+    border-top: 1px solid #ededed;
+    display: block;
+    position: absolute;
+    width: 50px;
+    top: 11px;
+    left: 0;
+}
+.with-line:after {
+    content: "";
+    border-top: 1px solid #ededed;
+    display: block;
+    position: absolute;
+    width: 50px;
+    top: 11px;
+    right: 0;
+}
+.buttons a.weibo:hover {
+    background-position: 0 -80px;
+}
+.buttons a {
+    display: inline-block;
+    margin-right: 10px;
+    width: 64px;
+    height: 64px;
+    background: url(../images/login_icons_small.png) 0 0 no-repeat;
+}
+
+.buttons a.qzone {
+    background-position: -80px 0;
+}
+.buttons a.qzone:hover {
+    background-position: -80px -80px;
+}
+.buttons a {
+    display: inline-block;
+    margin-right: 10px;
+    width: 64px;
+    height: 64px;
+    background: url(../images/login_icons_small.png) 0 0 no-repeat;
+}
+.buttons a.douban {
+    background-position: -160px 0;
+}
+.buttons a.douban:hover {
+    background-position: -160px -80px;
+}
+.buttons a {
+    display: inline-block;
+    margin-right: 10px;
+    width: 64px;
+    height: 64px;
+    background: url(../images/login_icons_small.png) 0 0 no-repeat;
+}
+.sign .small {
+    text-align: center;
+    font-size: 14px;
+    color: #ccc;
+}
+

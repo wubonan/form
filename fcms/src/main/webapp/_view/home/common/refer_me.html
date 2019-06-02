@@ -1,0 +1,59 @@
+<div class="shadow-box">
+    <div class="filter">
+        <ul class="">
+            <li><a href="/home/notifies">通知</a></li>
+            <li><a class="active" href="/home/referMe">@提到我</a></li>
+        </ul>
+    </div>
+    <!-- tab panes -->
+    <div class="posts-list">
+        #for(msg : newsFeedPage.list)
+        <div class="posts-item" id="loop-1265">
+            <div class="blog-rank">
+                <div class="user" title="#(msg.nickName)">
+                    <a href="/user/#(msg.accountId)">
+                        <img class="img-circle" src="#(msg.avatar)">
+                    </a>
+                </div>
+            </div>
+            <div class="summary">
+                <h2 class="title">#(msg.nickName)</h2>
+                <div class="excerpt wordbreak">
+                        #(msg.ref.mContent)
+                </div>
+                
+                <div class="newsfeed-ref-parent clearfix">
+					<div class="news-ref-parent-title">
+						#if(msg.ref.post_type == 1)
+							#set(type="article")
+						#elseif(msg.ref.post_type == 2)
+							#set(type="video")
+						#elseif(msg.ref.post_type == 3)
+							#set(type="gallery")
+						#elseif(msg.ref.post_type == 4)
+							#set(type="question")
+						#end
+						<span>原文：</span>
+						<a href="/view/#(type)/#(msg.ref.id)" target="_blank">
+							#(msg.ref.title)
+						</a>
+					</div>
+				</div>
+                
+                <div class="foot-block clearfix">
+                    <div class="author">
+                        <time>#(timeKit.formatOfDate(null, msg.createAt))前</time>
+                    </div>
+                </div>
+            </div>
+        </div>
+        #end
+    </div>
+    <!--分页-->
+	<nav class="text-center page"> 
+		 <ul class="pagination"> 
+		  <!-- 分页 -->
+		  #@paginate(newsFeedPage.pageNumber, newsFeedPage.totalPage, "?p=")
+		 </ul> 
+	</nav>
+</div>

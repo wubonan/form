@@ -1,0 +1,206 @@
+<div class="shadow-box">
+	<div class="filter">
+		<ul class="">
+			<li><a class="active" href="/home">动态</a></li>
+		</ul>
+	</div>
+	<!-- tab panes -->
+	<div class="posts-list">
+		#for(x : newsFeedPage.list)
+			<!--1表示posts,2表示posts_comments-->
+			#if(x.ref.feedType == 1)
+			<div class="posts-item" id="loop-4534">
+				<div class="posts-info clearfix">
+					<div class="users">
+						<a href="/user/#(x.ref.userId)">
+							<div class="avatar">
+								<img class="img-circle _img" src="#(x.avatar)">
+							</div>
+						</a>
+						#if(x.ref.post_type == 1)
+							<a href="/view/article/#(x.ref.id)">
+						#elseif(x.ref.post_type == 2)
+							<a href="/view/video/#(x.ref.id)">
+						#elseif(x.ref.post_type == 3)
+							<a href="/view/gallery/#(x.ref.id)">
+						#elseif(x.ref.post_type == 4)
+							<a href="/view/question/#(x.ref.id)"> 
+						#end
+							<div class="info">
+								<strong class="title"> 
+								#if(x.ref.post_type == 1)	
+								<span class="label label-success">文</span>
+								#elseif(x.ref.post_type == 2)
+								<span class="label label-success">视</span>
+								#elseif(x.ref.post_type == 3)
+								<span class="label label-success">图</span>
+								#elseif(x.ref.post_type == 4)
+								<span class="label label-success">问</span>
+								#end
+								#(x.ref.title)
+								</strong>
+								<time>#(x.nickName)&nbsp;&nbsp;#(timeKit.formatOfDate(null, x.createAt))前 </time>
+							</div>
+						</a>
+
+					</div>
+					<div class="counts">
+						<span class="act"><i class="fa fa-heart-o"></i> #(x.ref.likeCount)</span>
+						 <span class="act"><i class="fa fa-comment-o"></i> #(x.ref.comments)</span>
+					</div>
+				</div>
+				<div class="summary">
+					#if(x.ref.post_type == 1)
+						<a href="/view/article/#(x.ref.id)">
+					#elseif(x.ref.post_type == 2)
+						<a href="/view/video/#(x.ref.id)">
+					#elseif(x.ref.post_type == 3)
+						<a href="/view/gallery/#(x.ref.id)">
+					#elseif(x.ref.post_type == 4)
+					<a href="/view/question/#(x.ref.id)"> 
+					#end
+						<div class="excerpt wordbreak hidden-xs">#(x.ref.summary)</div>
+					</a>
+					<!--前端图片显示样式-->
+
+					<div class="foot-block clearfix">
+						<ul class="tags">
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!--1表示posts,2表示posts_comments-->
+			#elseif(x.ref.feedType == 2)
+			<div class="posts-item comment-item" el="loop-698">
+				<h2 class="title" style="color:#F36C52">#(x.nickName) 说：#(x.ref.mContent)</h2>
+				<div class="foot-block clearfix">
+					<div class="author">
+						<time>#(timeKit.formatOfDate(null, x.createAt))前</time>
+					</div>
+					<div class="pull-right hidden-xs">
+						<a class="act" href="#" onclick="delCommentAndFeed(#(x.id), #(x.refId), #(x.ref.id))" data-id="#(x.ref.id)">删除</a>
+					</div>
+				</div>
+				<div class="arrow"></div>
+			</div>
+			<div class="posts-item" id="loop-4535">
+			    <div class="posts-info clearfix">
+			        <div class="users">
+			            <a href="/user/#(x.ref.userId)">
+							<div class="avatar">
+								<img class="img-circle _img" src="/assets/images/avatar/default.jpg">
+							</div>
+						</a>
+						#if(x.ref.post_type == 1)
+						<a href="/view/article/#(x.ref.id)">
+						#elseif(x.ref.post_type == 2)
+						<a href="/view/video/#(x.ref.id)">
+						#elseif(x.ref.post_type == 3)
+						<a href="/view/gallery/#(x.ref.id)">
+						#elseif(x.ref.post_type == 4)
+						<a href="/view/question/#(x.ref.id)"> 
+						#end
+							<div class="info">
+								<strong class="title">	    	
+								#if(x.ref.post_type == 1)	
+								<span class="label label-success">文</span>
+								#elseif(x.ref.post_type == 2)
+								<span class="label label-success">视</span>
+								#elseif(x.ref.post_type == 3)
+								<span class="label label-success">图</span>
+								#elseif(x.ref.post_type == 4)
+								<span class="label label-success">问</span>
+								#end
+				 					#(x.ref.title)
+				 				</strong>
+								<time>#(x.nickName)&nbsp;#(timeKit.formatOfDate(null, x.ref.createAt))前 </time>
+							</div>
+						</a>
+						
+			        </div>
+			        <div class="counts">
+			            <span class="act"><i class="fa fa-heart-o"></i> #(x.ref.likeCount)</span>
+			            <span class="act"><i class="fa fa-comment-o"></i> #(x.ref.comments)</span>
+			        </div>
+			    </div>
+			    <div class="summary">
+					#if(x.ref.post_type == 1)
+					<a href="/view/article/#(x.ref.id)">
+					#elseif(x.ref.post_type == 2)
+					<a href="/view/video/#(x.ref.id)">
+					#elseif(x.ref.post_type == 3)
+					<a href="/view/gallery/#(x.ref.id)">
+					#elseif(x.ref.post_type == 4)
+					<a href="/view/question/#(x.ref.id)"> 
+					#end
+			        	<div class="excerpt wordbreak hidden-xs">#(x.ref.summary)</div>
+			        </a>
+					
+			    </div>
+			</div>
+			#end
+		#end
+	</div>
+	<!--分页-->
+	<nav class="text-center page"> 
+		 <ul class="pagination"> 
+		  <!-- 分页 -->
+		  #@paginate(newsFeedPage.pageNumber, newsFeedPage.totalPage, "?p=")
+		 </ul> 
+	</nav>
+</div>
+
+<script type="text/javascript">
+//删除评论和news_feed
+function delCommentAndFeed(_feedId, _commentId, _postId){
+    //询问框
+    layer.confirm('您确定要删除该评论及动态吗？', {
+      btn: ['确定','取消'] //按钮
+    }, function(){
+      $.ajax("/comment/delete", {
+        type: "POST"
+        , cache: false
+        , dataType: "json"
+        , data: {
+          feedId: _feedId,
+          commentId: _commentId,
+          postId: _postId,
+        }
+        , beforeSend: function() {
+      
+        }
+        , success: function(ret) {
+          if (ret.isOk) {
+            layer.msg(ret.msg, {
+              shift: 6
+              , shade: 0.3
+              , time: 3000
+              , offset: "165px"
+              , closeBtn: 1
+              , shadeClose: true
+            });
+            //刷新页面
+             window.location.reload();
+            return ;
+
+          } else {
+            layer.msg(ret.msg, {
+              shift: 6
+              , shade: 0.3
+              , time: 3000
+              , offset: "165px"
+              , closeBtn: 1
+              , shadeClose: true
+            });
+            return ;
+          }
+        }
+        , complete: function() {
+          //do nothing
+        }
+      }); 
+    }, function(){
+      
+    });
+}
+</script>

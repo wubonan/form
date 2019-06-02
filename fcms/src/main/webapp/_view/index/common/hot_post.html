@@ -1,0 +1,27 @@
+<div class="widget-box shadow-box">
+	<div class="title">
+		<h3>
+			<i class="fa fa-fire"></i> 热门文章
+		</h3>
+	</div>
+	<ul class="box-list hots" id="hots">
+		#for(post : hotPosts)
+		<li>
+			<div class="li-out">
+				<span class="last"><i>#(for.count)</i></span>
+				#if(post.post_type == 1)
+					#set(type = "article")
+				#elseif(post.post_type == 2)
+					#set(type = "video")
+				#elseif(post.post_type == 3)
+					#set(type = "gallery")
+				#else
+					#set(type = "question")
+				#end
+				<span class="name"><a href="/view/#(type)/#(post.id)">#(post.title)</a></span>
+				<span class="nums">#(post.views)</span>
+			</div>
+		</li>
+		#end
+	</ul>
+</div>

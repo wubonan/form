@@ -1,0 +1,256 @@
+#@adminLayout()
+
+
+#define adminMain()
+<section class="content-header">
+      <h1>
+        文章管理
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="/admin"><i class="fa fa-dashboard"></i> 主页</a></li>
+        <li><a href="/admin/post/article">发布管理</a></li>
+        <li class="active">文章管理</li>
+      </ol>
+</section>
+
+<section class="content">
+	<div class="row">
+		<div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">文章列表</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table class="table table-bordered">
+                <tbody><tr>
+                  <th style="width: 20px">id</th>
+                  <th style="width: 150px">作者</th>
+                  <th>标题</th>
+                  <th>标签</th>
+                  <th>创建时间</th>
+                  <th>操作</th>
+                </tr>
+                #for(post : postPage.list)
+                <tr>
+                  <td>#(post.id).</td>
+                  <td>#(post.nickName)</td>
+                  <td>	
+                    #if(post.postType == 1)
+          						<a href="/view/article/#(post.id)">#(post.title)</a>
+          					#elseif(post.postType == 2)
+          						<a href="/view/video/#(post.id)">#(post.title)</a>
+          					#elseif(post.postType == 3)
+          						<a href="/view/gallery/#(post.id)">#(post.title)</a>
+          					#elseif(post.postType == 4)
+          						<a href="/view/question/#(post.id)">#(post.title)</a>
+          					#end	
+                    
+                  </td>
+                  <td>
+                  #for(tag : (post.tags).split(","))	
+                  <span class="badge bg-red">#(tag)</span> 
+                  #end
+                  </td>
+                  <td><span class="badge bg-red">#date(post.createAt, "yyyy-MM-dd hh:mm:ss")</span></td>
+                  <td>
+	                  <button class="btn btn-primary btn-xs" type="button" onclick="viewPost(#(post.id), #(post.post_type))">
+	                  	<i class="ion ion-eye"></i>&nbsp;预览
+	                  </button>
+	                  <button class="btn btn-danger btn-xs" type="button" onclick="delPost(#(post.id))">
+	                  	<i class="ion ion-close"></i>&nbsp;删除
+	                  </button>
+                    <!--0表示发布，1表示草稿，2表示锁定-->
+                    #if(post.status!=2)
+	                  <button class="btn btn-danger btn-xs" type="button" onclick="lockPost(#(post.id))">
+	                  	<i class="ion ion-ios-locked-outline"></i>&nbsp;锁定
+	                  </button>
+                    #else
+                    <button class="btn btn-danger btn-xs" type="button" onclick="unlockPost(#(post.id))">
+                      <i class="ion ion-ios-unlocked-outline"></i>&nbsp;解锁
+                    </button>
+                    #end
+              	  </td>
+                </tr>
+                #end
+              </tbody></table>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer clearfix">
+          		<nav class="text-center page"> 
+				     <ul class="pagination"> 
+				      <!-- 分页 -->
+					    #@paginate(postPage.pageNumber, postPage.totalPage, "?p=")
+				     </ul> 
+				</nav>
+            </div>
+          </div>
+	</div>
+</section>
+#end
+
+#define js()
+<script type="text/javascript">
+  function viewPost(_id, _type){
+	    if(_type == 1)
+	    	window.open("/view/article/"+_id);
+		else if(_type == 2)
+			window.open("/view/video/"+_id);
+		else if(_type == 3)
+			window.open("/view/gallery/"+_id);
+		else if(_type == 4)
+			window.open("/view/question/"+_id);
+    
+  }
+
+  function delPost(_id){
+    //询问框
+    layer.confirm('您确定要删除该文章吗？', {
+      btn: ['确定','取消'] //按钮
+    }, function(){
+      $.ajax("/admin/post/delete", {
+        type: "POST"
+        , cache: false
+        , dataType: "json"
+        , data: {
+          postId: _id,
+        }
+        , beforeSend: function() {
+      
+        }
+        , success: function(ret) {
+          if (ret.isOk) {
+            layer.msg(ret.msg, {
+              shift: 6
+              , shade: 0.3
+              , time: 3000
+              , offset: "165px"
+              , closeBtn: 1
+              , shadeClose: true
+            });
+            //刷新页面
+             window.location.reload();
+            return ;
+
+          } else {
+            layer.msg(ret.msg, {
+              shift: 6
+              , shade: 0.3
+              , time: 3000
+              , offset: "165px"
+              , closeBtn: 1
+              , shadeClose: true
+            });
+            return ;
+          }
+        }
+        , complete: function() {
+          //do nothing
+        }
+      }); 
+    }, function(){
+      
+    });
+  }
+
+  function lockPost(_id){
+    //询问框
+    layer.confirm('您确定要锁定该文章吗？', {
+      btn: ['确定','取消'] //按钮
+    }, function(){
+      $.ajax("/admin/post/lock", {
+        type: "POST"
+        , cache: false
+        , dataType: "json"
+        , data: {
+          postId: _id,
+        }
+        , beforeSend: function() {
+      
+        }
+        , success: function(ret) {
+          if (ret.isOk) {
+            layer.msg(ret.msg, {
+              shift: 6
+              , shade: 0.3
+              , time: 4000
+              , offset: "165px"
+              , closeBtn: 1
+              , shadeClose: true
+            });
+            //刷新页面
+             window.location.reload();
+            return ;
+
+          } else {
+            layer.msg(ret.msg, {
+              shift: 6
+              , shade: 0.3
+              , time: 4000
+              , offset: "165px"
+              , closeBtn: 1
+              , shadeClose: true
+            });
+            return ;
+          }
+        }
+        , complete: function() {
+          //do nothing
+        }
+      }); 
+    }, function(){
+      
+    });
+  }
+
+  function unlockPost(_id){
+    //询问框
+    layer.confirm('您确定要解锁该文章吗？', {
+      btn: ['确定','取消'] //按钮
+    }, function(){
+      $.ajax("/admin/post/unlock", {
+        type: "POST"
+        , cache: false
+        , dataType: "json"
+        , data: {
+          postId: _id,
+        }
+        , beforeSend: function() {
+      
+        }
+        , success: function(ret) {
+          if (ret.isOk) {
+            layer.msg(ret.msg, {
+              shift: 6
+              , shade: 0.3
+              , time: 4000
+              , offset: "165px"
+              , closeBtn: 1
+              , shadeClose: true
+            });
+            //刷新页面
+             window.location.reload();
+            return ;
+
+          } else {
+            layer.msg(ret.msg, {
+              shift: 6
+              , shade: 0.3
+              , time: 4000
+              , offset: "165px"
+              , closeBtn: 1
+              , shadeClose: true
+            });
+            return ;
+          }
+        }
+        , complete: function() {
+          //do nothing
+        }
+      }); 
+    }, function(){
+      
+    });
+  }
+
+</script>
+#end

@@ -1,0 +1,123 @@
+<div class="shadow-box">
+	<div class="filter">
+		<ul class="">
+			<li><a class="active" href="/home?method=posts">我的文章</a></li>
+		</ul>
+	</div>
+	<!-- tab panes -->
+	<div class="posts-list">
+		#for(post : postPage.list)
+		<div class="posts-item" id="loop-4534">
+			<div class="blog-rank">
+				<div class="votes ">
+					#(post.likeCount)<small>喜欢</small>
+				</div>
+				<div class="views hidden-xs">
+					#(post.comments)<small>评论</small>
+				</div>
+			</div>
+			<div class="summary">
+				<h2 class="title" style="font-size: 20px;">	
+					#if(post.post_type == 1)
+						<a href="/view/article/#(post.id)">
+					#elseif(post.post_type == 2)
+						<a href="/view/video/#(post.id)">
+					#elseif(post.post_type == 3)
+						<a href="/view/gallery/#(post.id)">
+					#elseif(post.post_type == 4)
+						<a href="/view/question/#(post.id)">
+					#end
+						#(post.title)
+					</a>
+				</h2>
+				<div class="excerpt wordbreak hidden-xs">#(post.summary)</div>
+
+				<!--前端图片显示样式-->
+				
+				<div class="foot-block clearfix">
+					<div class="author">
+						<time>#(timeKit.formatOfDate(null, post.createAt))前</time>
+					</div>
+					<ul class="tags">
+											</ul>
+					<div class="pull-right hidden-xs">
+						#if(post.post_type == 1)
+							#set(mod="/blog/mod")
+						#elseif(post.post_type == 2)
+							#set(mod="/video/mod")
+						#elseif(post.post_type == 3)
+							#set(mod="/gallery/mod")
+						#elseif(post.post_type == 4)
+							#set(mod="/question/mod")
+						#end
+						<a class="act_edit" href="#(mod)/#(post.id)" data-evt="edit" data-id="4534">修改</a>
+						<a class="act_delete" href="#" onclick="delPost(#(post.id))" data-evt="trash" data-id="4534">删除</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		#end
+		<!--分页-->
+		<nav class="text-center page"> 
+		     <ul class="pagination"> 
+		      <!-- 分页 -->
+			  #@paginate(postPage.pageNumber, postPage.totalPage, "?p=")
+		     </ul>    
+		</nav>
+	</div>
+</div>
+
+#define js()
+<script type="text/javascript">
+function delPost(_id){
+    //询问框
+    layer.confirm('您确定要删除该文章吗？', {
+      btn: ['确定','取消'] //按钮
+    }, function(){
+      $.ajax("/post/delete", {
+        type: "POST"
+        , cache: false
+        , dataType: "json"
+        , data: {
+          postId: _id,
+        }
+        , beforeSend: function() {
+      
+        }
+        , success: function(ret) {
+          if (ret.isOk) {
+            layer.msg(ret.msg, {
+              shift: 6
+              , shade: 0.3
+              , time: 3000
+              , offset: "165px"
+              , closeBtn: 1
+              , shadeClose: true
+            });
+            //刷新页面
+             window.location.reload();
+            return ;
+
+          } else {
+            layer.msg(ret.msg, {
+              shift: 6
+              , shade: 0.3
+              , time: 3000
+              , offset: "165px"
+              , closeBtn: 1
+              , shadeClose: true
+            });
+            return ;
+          }
+        }
+        , complete: function() {
+          //do nothing
+        }
+      }); 
+    }, function(){
+      
+    });
+  }
+
+</script>
+#end

@@ -1,0 +1,32 @@
+#@adminLayout()
+
+
+#define adminMain()
+<section class="content">
+	<div class="row">
+	#for(tag : tags)
+		<div class="col-md-4">
+			<a href="/admin/tag/list?tag=#(tag.name)">
+				<div class="info-box bg-green">
+		            <span class="info-box-icon"><i class="ion ion-ios-pricetag-outline"></i></span>
+					
+		            <div class="info-box-content">
+		              <span class="info-box-text">文章数</span>
+		              <span class="info-box-number">#(tag.posts)</span>
+
+		              <div class="progress">
+		                <div class="progress-bar" style="width: #(sk.percent(tag.posts, postNum))"></div>
+		              </div>
+		                  <span class="progress-description">
+		                    <span class="label label-danger">#(tag.name)</span> 标签占总文章数的#(sk.percent(tag.posts, postNum))
+		                  </span>
+		            </div>
+		            <!-- /.info-box-content -->
+	            </div>
+          </a>
+		</div>
+	#end
+	</div>
+</section>
+#end
+

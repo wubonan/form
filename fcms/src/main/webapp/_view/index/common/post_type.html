@@ -1,0 +1,10 @@
+<div class="widget-box shadow-box">
+	<div class="title">
+		<h3><i class="fa  fa-leaf"></i> 文章分类</h3>
+	</div>
+	<ul class="tags m10" style="float: none;">
+		#for(type : articleTypes)
+		<li class="mb6"><a href="/postType/#(type.article_type)" class="tag tag-type tag-sm">#(type.article_type)</a></li>
+		#end
+	</ul>
+</div>

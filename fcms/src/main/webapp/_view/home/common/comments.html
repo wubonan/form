@@ -1,0 +1,77 @@
+<div class="shadow-box no-bg">
+	<div class="filter">
+		<ul class="">
+			<li><a class="active" href="/home?method=comments">我的评论</a></li>
+		</ul>
+	</div>
+	<!-- tab panes -->
+	<div class="posts-list p-stream no-bg">
+		#for(comment : commentPage.list)
+		<div class="posts-item comment-item" el="loop-698">
+				<h2 class="title" style="color:#F36C52">我说：#(comment.content)</h2>
+				<div class="foot-block clearfix">
+					<div class="author">
+						<time>#(timeKit.formatOfDate(null, comment.createAt))前</time>
+					</div>
+					<div class="pull-right hidden-xs">
+						<a class="act" href="javascript:void(0);" data-evt="trash" data-id="698">删除</a>
+					</div>
+				</div>
+				<div class="arrow"></div>
+		</div>
+		<div class="posts-item" id="loop-4535">
+		    <div class="posts-info clearfix">
+		        <div class="users">
+		            <a href="/ta/781">
+						<div class="avatar">
+							<img class="img-circle _img" src="#(comment.avatar)">
+						</div>
+						</a><a href="/view/4535">
+						<div class="info">
+							<strong class="title">
+							#if(comment.postType == 1)	
+							<span class="label label-success">文</span>
+							#elseif(comment.postType == 2)
+							<span class="label label-success">视</span>
+							#elseif(comment.postType == 3)
+							<span class="label label-success">图</span>
+							#elseif(comment.postType == 4)
+							<span class="label label-success">问</span>
+							#end    	
+							
+								#(comment.title)
+			 				</strong>
+							<time>#(comment.nickName)&nbsp;#(timeKit.formatOfDate(null, comment.pTime))前 </time>
+						</div>
+						</a>
+					
+		        </div>
+		        <div class="counts">
+		            <span class="act"><i class="fa fa-heart-o"></i> 0</span>
+		            <span class="act"><i class="fa fa-comment-o"></i> 1</span>
+		        </div>
+		    </div>
+		    <div class="summary">
+				#if(comment.post_type == 1)
+					<a href="/view/article/#(comment.postId)">
+				#elseif(comment.post_type == 2)
+					<a href="/view/video/#(comment.postId)">
+				#elseif(comment.post_type == 3)
+					<a href="/view/gallery/#(comment.postId)">
+				#elseif(comment.post_type == 4)
+					<a href="/view/question/#(comment.postId)">
+				#end
+		        	<div class="excerpt wordbreak hidden-xs">#(comment.summary)</div>
+		        </a>
+		    </div>
+		</div>
+		#end
+		<!--分页-->
+		<nav class="text-center page"> 
+		     <ul class="pagination"> 
+		      <!-- 分页 -->
+			  #@paginate(commentPage.pageNumber, commentPage.totalPage, "?p=")
+		     </ul>    
+		</nav>
+	</div>
+</div>

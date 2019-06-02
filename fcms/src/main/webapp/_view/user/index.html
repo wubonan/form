@@ -1,0 +1,431 @@
+#@layout() #define css()
+<style>
+.user-center-header {
+	position: relative;
+	height: 220px;
+	padding: 40px 0;
+	padding-left: 120px;
+	background-color: #313131;
+	z-index: 1;
+}
+
+.user-center-header .user-avatar {
+	position: relative;
+	float: left;
+	width: 66.67%;
+	padding-left: 200px;
+}
+
+.user-center-header .avatar-wrap {
+	position: absolute;
+	top: -15px;
+	left: 0;
+	border: 6px solid #585560;
+	border: 6px solid rgba(255, 255, 255, 0.5);
+}
+
+.avatar-wrap {
+	position: relative;
+	display: inline-block;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+}
+
+.avatar-lg {
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+	width: 120px !important;
+	height: 120px !important;
+}
+
+.user-avatar .follow {
+	position: absolute;
+	left: -30px;
+	top: 130px;
+	width: 80px;
+}
+
+.user-avatar .send-message {
+	position: absolute;
+	left: 80px;
+	top: 130px;
+	width: 80px;
+}
+
+.user-center-header .name {
+	color: #fff;
+	font-size: 18px;
+	margin-bottom: 10px;
+}
+
+.user-center-header .position {
+	margin-bottom: 10px;
+	color: #919191;
+	color: rgba(255, 255, 255, 0.5);
+}
+
+.user-center-header .mates {
+	font-size: 18px;
+	margin-bottom: 15px;
+	color: #fff;
+}
+
+.user-center-header .user-about {
+	float: left;
+	width: 32%;
+	padding: 15px 10px;
+	background-color: #919191;
+	background-color: rgba(255, 255, 255, 0.3);
+	color: #fff;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+
+.user-center-header .user-about-content {
+	height: 100px;
+	overflow: hidden;
+	line-height: 25px;
+}
+
+#content-container {
+	margin: 0px auto;
+	min-height: 100%;
+	background-color: #f5f8fa;
+}
+
+#content-container {
+	margin-top: 10px !important;
+}
+
+@media ( min-width : 1200px) {
+	.layui-tab-title, .layui-tab-content {
+		margin-left: 100px;
+		width: calc(100% - 200px);
+	}
+}
+
+.blog-rank.votes {
+    background: #f0f0f0;
+    border: 1px solid #d9dfe9;
+}
+.blog-rank .plus{
+    background: #5EBCF2;
+    color: #fff;
+}
+.posts-item .title {
+    font-size: 18px;
+    padding-top: 0px;
+}
+.posts-item .title {
+    display: block;
+    margin: 0 0 10px 0;
+    color: #333;
+    font-size: 16px;
+}
+.blog-rank .votes, .blog-rank .views, .blog-rank .user {
+    display: block;
+    padding-top: 3px;
+    width: 45px;
+    height: 45px;
+    -moz-border-radius: 1px;
+    -webkit-border-radius: 1px;
+    border-radius: 1px;
+}
+.blog-rank small {
+    display: block;
+    font-size: 12px;
+}
+
+.friends {
+	margin: 0 0 20px 35px;
+}
+
+.friends div {
+	display: inline-block;
+	margin: 10px 10px;
+	width: 110px;
+	text-align: center;
+}
+
+.friends div {
+	word-wrap: break-word;
+}
+
+.friends a {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	margin-top: 5px;
+	font-size: 16px;
+	color: #337ab7;
+	text-decoration: none;
+}
+
+.friends img {
+	width: 80px;
+	height: 80px;
+	margin-left: 15px;
+	border-radius: 50px;
+}
+
+.friends img, .friends>a, .friends span {
+	display: block;
+	text-align: center;
+	font-size: 14px;
+}
+
+.friends span {
+	color: #337ab7;
+}
+
+.friends img, .friends>a, .friends span {
+	display: block;
+	text-align: center;
+	font-size: 14px;
+}
+</style>
+#end 
+#define main()
+<div class="wrap">
+	<div class="row">
+		<div class="main clearfix">
+			<div class="col-xs-12 col-md-12">
+				<div id="content-container" class="container-fulid">
+					<div class="user-center-header" data-sharpness="40">
+						<div class="user-avatar">
+							<div class="avatar-wrap">
+								<img class="avatar-lg" src="#(account.avatar)">
+							</div>
+							<button class="btn btn-success follow" style="position: absolute;" onclick="followUser(#(account.id))">
+								<i class="icon-group_add"></i>关注Ta
+							</button>
+							<a class="btn btn-success send-message" style="position: absolute; color: #fff;"
+								href="/home/message/friend/#(account.id)"> <i class="icon-msg"></i>发私信
+							</a>
+							<div class="name hidden-xs">#(account.nickName)</div>
+							<div class="position hidden-xs">
+								<span class="mrm hidden-xs">暂无头衔</span>
+							</div>
+							<div class="mates">
+								<span class="mrm test hidden-xs">#(fansNum) 粉丝 </span> <span class="mlm mrm"> </span> <span
+									class="mrm hidden-xs">#(followNum) 关注 </span>
+							</div>
+						</div>
+						<div class="user-about hidden-sm hidden-xs">
+							<div class="user-about-content">#(account.signature)</div>
+						</div>
+					</div>
+
+					<div class="layui-tab layui-tab-brief" lay-filter="type">
+						<ul class="layui-tab-title">
+							<li class="layui-this" lay-id="1">Ta发布的</li>
+							<li lay-id="2">Ta的关注</li>
+							<li lay-id="3">Ta的粉丝</li>
+						</ul>
+						<div class="layui-tab-content" style="height: 100%;">
+							<div class="layui-tab-item layui-show">
+								<div class="col-xs-12 col-md-12">
+									<div class="shadow-box mt20">
+										<div class="posts-list">
+											#for(post : postPage.list)
+											<div class="posts-item">
+												<div class="blog-rank">
+													<div class="votes  plus ">
+														#(post.likeCount)<small>喜欢</small>
+													</div>
+													<div class="views hidden-xs">
+														#(post.comments)<small>评论</small>
+													</div>
+												</div>
+												<div class="summary">
+													<h2 class="title">
+													#if(post.postType == 1)
+														<a href="/view/article/#(post.id)">
+													#elseif(post.postType == 2)
+														<a href="/view/video/#(post.id)">
+													#elseif(post.postType == 3)
+														<a href="/view/gallery/#(post.id)">
+													#elseif(post.postType == 4)
+														<a href="/view/question/#(post.id)">
+													#end
+															#(post.title)
+														</a>
+													</h2>
+
+													<div class="excerpt wordbreak hidden-xs">
+														#(post.summary)
+													</div>
+
+													<!--前端图片显示样式-->
+													<!--Start-->
+													<div class="thumbs clearfix">
+														<div class="summary-img ">
+															#if(post.postType == 1)
+																<a href="/view/article/#(post.id)">
+															#elseif(post.postType == 2)
+																<a href="/view/video/#(post.id)">
+															#elseif(post.postType == 3)
+																<a href="/view/gallery/#(post.id)">
+															#elseif(post.postType == 4)
+																<a href="/view/question/#(post.id)">
+															#end
+															#if(post.images)
+																#for(img : sk.convertStrToArray(post.images,","))
+																	#if(for.count < 4)
+																		<!--PC显示3张，手机端显示1张-->
+																		#if(for.count == 1)
+																		<img class="pimg" src="#(img)" title="点击看大图">
+																		#else
+																		<img class="pimg hidden-xs" src="#(img)">
+																		#end
+																	#end
+																#end
+															#end
+															</a>
+														</div>
+													</div>
+													<!--End-->
+
+													<div class="foot-block clearfix">
+														<div class="author">
+															<time>#(timeKit.formatOfDate(null, post.createAt))前</time>
+														</div>
+														#if(post.tags)
+														<ul class="tags">
+															<!--注意，这里由于数据库里存的是字符串，所以先通过共享类把字符串转为数组，再做循环-->
+															#for(tag : (post.tags).split(","))
+															<li><a href="/tags/view/#(tag)" class="tag tag-sm">#(tag)</a></li>
+															#end
+														</ul>
+														#end
+														<div class="pull-right hidden-xs">
+															<span class="act">浏览 (<i>#(post.views)</i>)
+															</span> <span class="act">喜欢 (<i>#(post.likeCount)</i>)
+															</span>
+														</div>
+													</div>
+												</div>
+											</div>
+											#end
+											<nav class=" text-center page">
+												<ul class="pagination">
+													<!-- 分页 -->
+													#@paginate(postPage.pageNumber, postPage.totalPage, "?p=")
+												</ul>
+											</nav>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="layui-tab-item">
+								<!-- 关注-->
+								#include("/_view/user/common/follow.html")
+							</div>
+							<div class="layui-tab-item">
+								<!--粉丝-->
+								#include("/_view/user/common/fans.html")
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+#end
+
+#define js()
+<script type="text/javascript" src="/assets/js/jcms-user-friend-relation.js?v=1"></script>
+<script type="text/javascript">
+	//设置关注状态
+$(document).ready(function(){
+	setFollowUserStatus();
+	changeTab();
+});
+
+//tab切换
+function changeTab() {
+	layui.use('element', function(){
+	  var element = layui.element();
+	  
+	  //获取hash来切换选项卡，假设当前地址的hash为lay-id对应的值
+	  var layid = location.hash.replace(/^#type=/, '');
+	  element.tabChange('type', layid); //假设当前地址为：http://a.com#type=2，那么选项卡会自动切换到“发送消息”这一项
+	  
+	  //监听Tab切换，以改变地址hash值
+	  element.on('tab(type)', function(){
+	    location.hash = 'type='+ this.getAttribute('lay-id');
+	  });
+	});
+}
+
+function setFollowUserStatus()
+{
+		if(#(followUser))
+		{
+			$(".follow").html('<i class="icon-check"></i>已关注');
+				$(".follow").hover(function(){
+					$(this).html('取消关注');
+				});
+		}	
+		else{
+			$(".follow").html('<i class="icon-group_add"></i>关注Ta');
+		}
+}
+
+//follow
+function followUser(userId)
+{
+	$.ajax("/user/follow/"+userId, {
+		type: "POST"
+		, cache: false
+		, dataType: "json"
+		, data: {
+			
+		}
+		, beforeSend: function() {
+			
+		}
+		, success: function(ret) {
+			if(ret.followUser)
+			{
+				$(".follow").html('<i class="icon-check"></i>已关注');
+			}
+			else
+			{
+				$(".follow").html('<i class="icon-group_add"></i>关注Ta');
+			}
+			
+			if (ret.isOk) {
+				layer.msg(ret.msg, {
+					shift: 6
+					, shade: 0.3
+					, time: 2000
+					, offset: "165px"
+					, closeBtn: 1
+					, shadeClose: true
+				});
+				return ;					
+				
+			} else {
+				layer.msg(ret.msg, {
+					shift: 6
+					, shade: 0.3
+					, time: 2000
+					, offset: "165px"
+					, closeBtn: 1
+					, shadeClose: true
+				});
+				return ;
+			}
+		}
+		, complete: function() {
+		}
+	});
+}
+</script>
+#end

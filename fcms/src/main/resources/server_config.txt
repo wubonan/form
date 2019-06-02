@@ -1,0 +1,11 @@
+#大家可以修改下代码，将该配置文件与jcms_config_dev.txt进行合并
+about=about
+ContentPage=ContentPage
+MainPage=MainPage
+#mysql环境路径及用户密码
+mysqlPath=C:\\Program Files\\MySQL\\MySQL Server 8.0\\bin
+user=root
+password=sql123456
+WEBIP=127.0.0.1
+#服务器ip地址设置
+ServerIP=192.168.1.103:8080

@@ -1,0 +1,66 @@
+<div class="panel-body">
+		<div id="message">
+		
+		</div>
+		<div class="tab-pane active" id="base_info">
+			<form id="pf" action="/account/saveInfo" method="post" class="form-horizontal">
+				<div class="form-group">
+					<label class="control-label col-lg-3" for="nickname">昵称</label>
+					<div class="col-lg-4">
+						<input type="text" class="form-control" name="user.nickName" value="#(loginAccount.nickName)" maxlength="7" data-required="">
+					</div>
+				</div>
+				<input type="hidden"  name="user.id" value="#(loginAccount.id)">
+				<div class="form-group">
+					<label class="control-label col-lg-3" for="email">邮箱地址</label>
+					<div class="col-lg-4">
+						<span class="form-control">#(loginAccount.email)</span>
+					</div>
+					<div class="col-lg-3" style="padding-top: 6px;">
+						#if(loginAccount.status)
+						<span class="label label-info">已验证</span>
+						#else
+						<span class="label label-warning">未验证</span>
+						#end
+						<!--
+						<a href="/account/email">修改邮箱</a>
+						-->
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-3" for="signature">个性签名</label>
+					<div class="col-lg-6">
+						<textarea name="user.signature" value="#(loginAccount.signature)" class="form-control" rows="3" maxlength="128"></textarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="text-center">
+						<button type="submit" class="btn btn-primary">提交</button>
+					</div>
+				</div><!-- /form-actions -->
+			</form>
+		</div>
+	</div>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		$("#base_info").ajaxForm({
+			dataType: "json",
+			success: function(ret) {
+				// 业务层验证成功
+				if(ret.isOk) {
+					layer.alert(ret.msg, {icon: 6});
+					//跳转到文章详情
+					//location.href = "/community/article/"+ret.articleId;
+					return ;
+				}
+				// 业务层验证失败
+				else if (ret.isFail) {
+					layer.alert(ret.msg);
+					return ;
+				}
+			}
+			, error: function(ret) { }              // ret.status != 200 时回调
+			, complete: function(ret) { }       // 无论是 success 还是 error，最终都会被回调
+		});
+	});
+	</script>

@@ -1,0 +1,164 @@
+#@adminLayout()
+
+
+#define adminMain()
+<section class="content-header">
+      <h1>
+        日志管理
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="/admin"><i class="fa fa-dashboard"></i> 主页</a></li>
+        <li class="active"><a href="/admin/log">日志管理</a></li>
+      </ol>
+</section>
+
+<section class="content">
+	<div class="row">
+		<div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">日志列表</h3>
+              <button class="btn btn-danger btn-sm" style="margin-left: 20px" onclick="delAllLog()">删除全部</button>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table class="table table-bordered">
+                <tbody><tr>
+                  <th style="width: 20px">id</th>
+                  <th style="width: 150px">登录用户</th>
+                  <th>登录时间</th>
+                  <th>登录ip</th>
+                  <th>操作</th>
+                </tr>
+                #for(log : logPgae.list)
+                <tr>
+                  <td>#(log.id).</td>
+                  <td>#(log.nickName)</td>
+                  <td><span class="badge bg-red">#date(log.loginAt, "yyyy-MM-dd hh:mm:ss")</span></td>
+                  <td>#(log.ip)</td>
+                  <td>
+	                  <button class="btn btn-danger btn-xs" type="button" onclick="delLog(#(log.id))">
+	                  	<i class="ion ion-close"></i>&nbsp;删除
+	                  </button>
+              	  </td>
+                </tr>
+                #end
+              </tbody></table>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer clearfix">
+          		<nav class="text-center page"> 
+				     <ul class="pagination"> 
+				      <!-- 分页 -->
+					    #@paginate(logPgae.pageNumber, logPgae.totalPage, "?p=")
+				     </ul> 
+				</nav>
+            </div>
+          </div>
+	</div>
+</section>
+#end
+
+#define js()
+<script type="text/javascript">
+  function delLog(_id){
+    //询问框
+    layer.confirm('您确定要删除该日志吗？', {
+      btn: ['确定','取消'] //按钮
+    }, function(){
+      $.ajax("/admin/log/delete", {
+        type: "POST"
+        , cache: false
+        , dataType: "json"
+        , data: {
+          logId: _id,
+        }
+        , beforeSend: function() {
+      
+        }
+        , success: function(ret) {
+          if (ret.isOk) {
+            layer.msg(ret.msg, {
+              shift: 6
+              , shade: 0.3
+              , time: 3000
+              , offset: "165px"
+              , closeBtn: 1
+              , shadeClose: true
+            });
+            //刷新页面
+             window.location.reload();
+            return ;
+
+          } else {
+            layer.msg(ret.msg, {
+              shift: 6
+              , shade: 0.3
+              , time: 3000
+              , offset: "165px"
+              , closeBtn: 1
+              , shadeClose: true
+            });
+            return ;
+          }
+        }
+        , complete: function() {
+          //do nothing
+        }
+      }); 
+    }, function(){
+      
+    });
+  }
+
+  function delAllLog(_id){
+    //询问框
+    layer.confirm('您确定要删除所有日志吗？', {
+      btn: ['确定','取消'] //按钮
+    }, function(){
+      $.ajax("/admin/log/deleteAll", {
+        type: "POST"
+        , cache: false
+        , dataType: "json"
+        , data: {
+          logId: _id,
+        }
+        , beforeSend: function() {
+      
+        }
+        , success: function(ret) {
+          if (ret.isOk) {
+            layer.msg(ret.msg, {
+              shift: 6
+              , shade: 0.3
+              , time: 3000
+              , offset: "165px"
+              , closeBtn: 1
+              , shadeClose: true
+            });
+            //刷新页面
+             window.location.reload();
+            return ;
+
+          } else {
+            layer.msg(ret.msg, {
+              shift: 6
+              , shade: 0.3
+              , time: 3000
+              , offset: "165px"
+              , closeBtn: 1
+              , shadeClose: true
+            });
+            return ;
+          }
+        }
+        , complete: function() {
+          //do nothing
+        }
+      }); 
+    }, function(){
+      
+    });
+  }
+
+</script>
+#end

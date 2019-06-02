@@ -1,0 +1,43 @@
+#@layout()
+
+#define main()
+<div class="wrap" id="wrap">
+	<div class="container">
+		<div class="video-list clearfix">
+			#if(!videoPage.getList())
+				<div class="col-xs-12 col-md-12 no-content">
+					<p>对不起，暂时没有内容</p>
+				</div>
+			#end
+			#for(video : videoPage.getList())
+			<div class="video-item col-xs-12 col-sm-4 col-lg-4">
+				<a href="/view/video/#(video.id)">
+					<div class="video-box">
+						#if(video.images)
+							<img src="#(video.images)">
+						#else
+							<img src="/assets/images/bg2.jpg">
+						#end
+						<div class="video-intro">
+							<h3><i>视</i> #(video.title)</h3>
+							<p> #(video.summary)</p>
+						</div>
+						<div class="video-bottom">
+							<span class="l">0人观看</span>
+						</div>
+					</div>
+				</a>
+			</div>
+			#end
+		</div>
+	</div>
+	<!--分页-->
+	<nav class="text-center page"> 
+			<ul class="pagination"> 
+			<!-- 分页 -->
+			#@paginate(videoPage.pageNumber, videoPage.totalPage, "?p=")
+			</ul> 
+	</nav>
+</div>
+
+#end

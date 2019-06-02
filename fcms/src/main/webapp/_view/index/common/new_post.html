@@ -1,0 +1,26 @@
+<div class="widget-box shadow-box">
+	<div class="title">
+		<h3>
+			<i class="fa fa-bars"></i> 最新发布
+		</h3>
+	</div>
+	<ul class="box-list" id="latests">
+		#for(post : newPosts)
+		#if(post.post_type == 1)
+			#set(type = "article")
+		#elseif(post.post_type == 2)
+			#set(type = "video")
+		#elseif(post.post_type == 3)
+			#set(type = "gallery")
+		#else
+			#set(type = "question")
+		#end
+		<li>
+			<div class="li-out">
+				<span class="name"><a href="/view/#(type)/#(post.id)">#(post.title)</a></span><span class="nums">#(post.views)</span>
+			</div>
+		</li>
+		#end
+	</ul>
+</div>
+

@@ -1,0 +1,58 @@
+<div class="shadow-box">
+    <div class="filter">
+        <ul class="">
+            <li><a class="active" href="/home/message">我的私信</a></li>
+        </ul>
+    </div>
+    <div class="newsfeed-list-box">
+	<ul class="newsfeed-list">
+		#for(x : messagePage.list)
+			<li>
+				<div class="newsfeed-user-img">
+					<a href="/user/#(x.friend)">
+						<img src="#(x.avatar)" />
+					</a>
+				</div>
+				<div class="newsfeed-item">
+					<div class="newsfeed-user-name">
+						<a href="/user/#(x.friend)">#(x.nickName)</a>
+					</div>
+                    <div class="newsfeed-text">
+                        #(x.content)
+                    </div>
+                    <div class="newsfeed-icon">
+                        <span class="newsfeed-time">
+                            #date(x.createAt, "yyyy-MM-dd HH:mm")
+                        </span>
+                        <a class="reply" href="/home/message/friend/#(x.friend)" style="margin-left:20px;">查看私信(#(x.msgCount))</a>
+                        <a class="reply" href="/home/message/friend/#(x.friend)" style="margin-left:20px;">发送私信</a>
+                        <a class="reply" href="javascript:void(0);" onclick="deleteByFriendId(this, #(x.friend));">删除</a>
+                    </div>
+				</div>
+			</li>
+		#end
+	</ul>
+</div>
+    <!--分页-->
+	<nav class="text-center page"> 
+		 <ul class="pagination"> 
+		  <!-- 分页 -->
+		  #@paginate(messagePage.pageNumber, messagePage.totalPage, "?p=")
+		 </ul> 
+	</nav>
+</div>
+<script>
+//删除某一个用户的所有私信往来
+function deleteByFriendId(self, friendId) {
+    confirmAjaxGet("即将删除与该用户的所有私信，确定要删除？", "/home/message/deleteByFriendId?friendId=" + friendId, {
+        success: function(ret) {
+            if (ret.state == "ok") 
+            {
+                $(self).parents(".newsfeed-list li").remove();
+            }
+        }
+    });
+}
+</script>
+
+

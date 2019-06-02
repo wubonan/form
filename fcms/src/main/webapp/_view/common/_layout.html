@@ -1,0 +1,164 @@
+#define layout()
+<!Doctype html>
+<html lang="zh-CN" xml:lang="zh-CN">
+<head>
+<style type="text/css">
+html, body {
+	height: 100%;
+}
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+<meta name="renderer" content="webkit" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="keywords" content="#(siteInfo.keywords ?? 'MB博客')" />
+<meta name="description" content="#(siteInfo.description ?? 'MB博客')" />
+<title>#(siteInfo.title ?? 'MB博客')</title>
+<link href="/assets/css/bootstrap.css" rel="stylesheet" />
+<link rel="stylesheet" media="screen" href="/assets/css/font-awesome.min.css" />
+<link type="text/css" rel="stylesheet" href="/assets/prettify/_darcula-from-highlight-js-by-james.css">
+<link rel="stylesheet" href="/assets/layui/css/layui.css" />
+<link rel="stylesheet" href="/assets/css/plugins.css" />
+<link rel="stylesheet" media="screen" href="/assets/css/es-icon.css" />
+<link rel="stylesheet" href="/assets/css/fcms_1.0.css" />
+
+<script src="/assets/js/jquery.min.js"></script>
+<script src="/assets/js/jcms_v1.0.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
+<script src="/assets/layui/lay/dest/layui.all.js"></script>
+<script type="text/javascript" src="/assets/jquery_form/jquery.form.min.js"></script>
+<script type="text/javascript" src="/assets/layer-v3.0.2/layer/layer.js"></script>
+
+<script type="text/javascript" src="/assets/prettify/prettify.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	$("pre").addClass("prettyprint linenums");
+	prettyPrint();
+});
+</script>
+### 模板函数安全调用，找到 css() 模板函数则调用，找不到则直接跳过 
+### 适合于部分页面在 layout.html 提供的 css 文件之外，还需额外添加 css 资源的应用场景
+#@css?()
+</head>
+
+<body class="userpage bg-blank">
+
+	<!-- 网站头部导航条 -->
+	<nav class="navbar-inverse" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+					data-target="#fcms-navbar" aria-expaned="false">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand logo" href="/index"><img src="#(siteInfo.logo)"></a>
+			</div>
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="fcms-navbar">
+				<ul class="nav navbar-nav navbar-nav-menu">
+					#if(loginAccount)
+						<li><a href="/home/newfeeds">主页</a></li>
+					#else
+						<li></li>
+					#end
+					<li><a href="/index">文章</a></li>
+					<li><a href="/video">视频</a></li>
+					<li><a href="/question">问答</a></li>
+					<li><a href="/tags">发现</a></li>
+					<li><a href="/gallery">走廊</a></li>
+					<li><a href="/reptile">爬虫</a></li>
+					
+				</ul>
+				<div id="_search_box" class="search-box navbar-left hidden-xs hidden-sm">
+					<form class="navbar-form" id="search-form" method="get" action="/search">
+						<input type="text" class="form-control" name="q" placeholder="搜索...">
+						<button class="search-btn" type="submit">
+							<i class="fa fa-search"></i>
+						</button>
+					</form>
+					
+				</div>
+				#if(loginAccount)
+				<ul class="nav navbar-nav navbar-right sign">
+					<li class="dropdown"><a href="#" class="publish dropdown-toggle" data-toggle="dropdown">
+							<i class="fa fa-magic"></i> 发布
+					</a>
+						<ul class="dropdown-menu publishs" role="menu">
+							<li>
+								<a href="/blog/add"> <i class="fa fa-pencil-square icon"></i> <span>写文章</span></a>
+							</li>
+							<li>
+								<a href="/gallery/addImg"> <i class="fa fa-camera icon"></i> <span>发图片</span></a>
+							</li>
+							<li>
+								<a href="/video/addVideo"> <i class="fa fa-toggle-right icon"></i> <span>发视频</span></a>
+							</li>
+							<li>
+								<a href="/video/moveVideo"> <i class="fa fa-toggle-right icon"></i> <span>搬视频</span></a>
+							</li>
+							<li>
+								<a href="/question/addQus"> <i class="fa fa-question-circle icon"></i> <span>提问题</span></a>
+							</li>
+						</ul></li>
+					<li class="dropdown header"><a href="#" class="ava dropdown-toggle" data-toggle="dropdown">
+							<img class="img-circle" src="#(loginAccount.avatar)">
+					</a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="/account/profile" class="ava"> <img class="img-circle"
+									src="#(loginAccount.avatar)""> <span> #(loginAccount.nickName)</span>
+							</a></li>
+							<li class="divider"></li>
+
+
+							<li><a href="/logout">退出</a></li>
+						</ul></li>
+				</ul>
+        #else
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/login" class="signin">登录</a></li>
+          <li class="hidden-xs"><span class="or">or</span></li>
+          <li><a href="/reg" class="signup">注册</a></li>
+        </ul>
+				#end
+			</div>
+
+		</div>
+	</nav>
+
+
+	<!-- 容器内容 -->
+	<div id="content-container" class="container-fulid mt40">#@main()</div>
+	<!--网站尾部-->
+	<footer>
+		<div class="footer-nav">
+			<div class="container">
+				<ul class="about-ul list-inline clearfix">
+					<li><a href="/about">关于我们</a></li>
+					<li><a href="/joinus">联系我们</a></li>
+					<li><a href="/faqs">常见问题</a></li>
+					<li></li>
+				</ul>
+			</div>
+		</div>
+		<div class="container mode-link">
+			<h3 class="t-h3">友情链接</h3>
+			<ul class="list-inline">
+				#for(link : comKit.getFriendLink())
+				<li><a href="#(link.url)" target="_blank" title="#(link.site_name)"> #(link.site_name)</a></li>
+				#end
+			</ul>
+		</div>
+		<div class="container copy-right">
+
+			<span class="pull-right">Powered By <a href="http://mb.daymooc.com" target="_blank">MB</a></span>
+		</div>
+
+	</footer>
+	<a href="#" class="site-scroll-top" style="display: inline;"></a> 
+	### 模板函数安全调用，找到 js()模板函数则调用，找不到则直接跳过
+	### 适合于部分页面在 layout.html 提供的 js 文件之外，还需额外添加 js 资源的应用场景 
+	#@js?()
+</body>
+</html>
+#end

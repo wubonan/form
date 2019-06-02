@@ -1,0 +1,24 @@
+/*分页*/
+
+.text-center {
+    text-align: center;
+}
+.page a {
+    margin: 0 8px;
+    color: #4d555d;
+    border-radius: 16px;
+    -webkit-transition: border-color .2s;
+    -moz-transition: border-color .2s;
+    transition: border-color .2s;
+}
+.page a, .page span, UNUSED.page-disabled {
+    padding: 0 4px;
+    min-width: 24px;
+    line-height: 32px;
+    font-size: 14px;
+    display: inline-block;
+    text-align: center;
+}
+.pagination>.active>a{
+    z-index: 0;
+}

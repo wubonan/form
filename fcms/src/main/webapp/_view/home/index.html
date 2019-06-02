@@ -1,0 +1,120 @@
+#@layout() 
+#define main()
+<div class="wrap" id="wrap">
+	<div class="container">
+		<div class="row">
+			<div class="main clearfix">
+				<div class="col-xs-12 col-md-3 side-left">
+					<ul class="list-group about-user">
+						<li class="list-group-item  user-card">
+							<div class="ava">
+								<a href="/user/#(loginAccount.id)"> 
+									<img class="img-circle" src="#(loginAccount.avatar)">
+								</a>
+							</div>
+							<div class="user-info">
+								<div class="nk mb10">#(loginAccount.nickName)</div>
+								<div class="mb6">
+									<a class="btn btn-success btn-xs" href="/account/profile"><i class="fa fa-pencil"></i>
+										修改账户</a>
+								</div>
+							</div>
+						</li>
+					</ul>
+					<nav class="navbar navbar-default" style="background-color: #fff;">
+						<div class="container-fluid">
+							<!-- Brand and toggle get grouped for better mobile display -->
+							<div class="navbar-header">
+								<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+									data-target="#home-navbar" aria-expanded="false">
+									<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span
+										class="icon-bar"></span> <span class="icon-bar"></span>
+								</button>
+								<span class="navbar-brand">导航</span>
+							</div>
+						</div>
+						<div id="home-navbar" class="collapse navbar-collapse">
+							<ul class="list-group user-nav first">
+								<li class="list-group-item"><a href="/home/newfeeds"><i class="fa fa-feed"></i> 动态</a></li>
+								<li class="list-group-item"><a href="/home/posts"><i
+										class="fa fa-file-text-o"></i> 我的文章</a></li>
+								<li class="list-group-item"><a href="/home/comments"><i
+										class="fa fa-comment-o"></i> 我的评论</a></li>
+							</ul>
+
+							<ul class="list-group user-nav">
+								<li class="list-group-item"><a href="/home/favors"><i class="fa fa-heart-o"></i>
+										我的喜欢</a></li>
+								<li class="list-group-item"><a href="/home/follows"><i class="fa fa-eye"></i> 我的关注</a>
+								</li>
+								<li class="list-group-item"><a href="/home/fans"><i class="fa fa-users"></i> 我的粉丝</a></li>
+							</ul>
+
+							<ul class="list-group user-nav">
+								<li class="list-group-item">
+									<a href="/home/notifies"> <i class="fa fa-bell-o"></i>
+											通知  <span class="label label-danger">#(comKit.getMsgNum(loginAccount.id))</span>
+									</a>
+								</li>
+								<li class="list-group-item">
+									<a href="/home/message"> <i class="fa fa-envelope-o"></i>
+											私信  <span class="label label-danger">#(comKit.getMessageNum(loginAccount.id))</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</nav>
+				</div>
+
+				<div class="col-xs-12 col-md-9 side-right">
+					<!-- tab -->
+					<!-- tab end -->
+					#if(page == "newfeeds")
+						#include("/_view/home/common/newfeeds.html")  <!-- 动态 -->
+					#elseif(page == "posts")
+						#include("/_view/home/common/posts.html") 	<!-- 文章 -->
+					#elseif(page == "comments")
+						#include("/_view/home/common/comments.html")
+					#elseif(page == "favors")
+						#include("/_view/home/common/favors.html")
+					#elseif(page == "follows")
+						#include("/_view/home/common/follows.html")
+					#elseif(page == "fans")
+						#include("/_view/home/common/fans.html")
+					#elseif(page == "notifies")
+						#include("/_view/home/common/notifies.html")
+					#elseif(page == "referMe")
+						#include("/_view/home/common/refer_me.html")
+					<!-- 所有私信 -->
+					#elseif(page == "message")
+						#include("/_view/home/common/_all_friend_message_list.html")
+					<!-- 与某一个用户私信 -->
+					#elseif(page == "friendMessage")
+						#include("/_view/home/common/one_friend_message.html")
+					#end
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+#end
+<script>
+//删除好友功能，用于关注/粉丝列表页面
+function deleteFriend(friendId) {
+    confirmAjaxGet("取消关注后，此人的动态消息将不会出现在你的首页，确定要操作？", "/friend/delete?friendId=" + friendId, {
+        success: function(ret) {
+            if (ret.state == "ok") {
+            	showOkMsg("取消关注成功");
+            	//1秒后刷新
+            	window.setTimeout(function () {
+            		location.reload();
+                }, 1000);
+            } else {
+                showReplyErrorMsg("取消关注失败");
+            }
+        }
+    });
+}
+</script>

@@ -1,0 +1,37 @@
+<div class="personal-course">
+	<div class="course-list">
+		<div class="concern-list">
+			<div class="row">
+				<div class="friends">
+					#for(x : fansPage.getList())
+					<div>
+						<a href="/user/#(x.id)">
+							<img src="#(x.avatar)">
+						</a>
+						<a href="/user/#(x.id)" title="#(x.nickName)">#(x.nickName)</a>
+						<span id="#(x.id)">&nbsp;</span>
+					</div>
+					#end
+					<nav class="text-center">
+						<nav class=" text-center">
+							<ul class="pagination">
+								<!-- 分页 -->
+								#@paginate(fansPage.pageNumber, fansPage.totalPage, "/user/" + userId + "?fansP=")
+							</ul>
+						</nav>
+					</nav>
+					<script type="text/javascript">
+						//保障打开的tab为当前tab
+						$(document).ready(function(){
+							var url = window.location.href;
+							if(url.indexOf("fansP") >= 0)
+							{
+								window.open('/user/'+#(userId)+"?fansP=#(fansPage.pageNumber)"+"#type=5", '_self');
+							}
+						});
+					</script>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

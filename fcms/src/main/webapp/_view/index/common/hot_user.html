@@ -1,0 +1,10 @@
+<div class="widget-box shadow-box">
+	<div class="title">
+		<h3><i class="fa fa-users"></i> 热门用户</h3>
+	</div>
+	<ul id="hotuser" class="hotusers">
+		#for(user : hotUsers)
+		<li class="img"><a href="/user/#(user.id)"><img src="#(user.avatar)"></a></li>
+		#end
+	</ul>
+</div>

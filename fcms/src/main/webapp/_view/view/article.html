@@ -1,0 +1,127 @@
+#@layout()
+
+#define main()
+<div class="wrap" id="wrap">
+	<div class="container">
+		<div class="row">
+			<div class="main clearfix">
+				<div class="col-xs-12 col-md-9 side-left">
+					<div class="shadow-box">
+						<h1 class="post-title">#(post.title)</h1>
+						<div class="post-other clearfix">
+							<span class="pull-left author"><a href="/uer/#(post.userId)">#(post.nickName)</a></span>
+							<span class="pull-left time">#date(post.createAt, "YY-MM-dd")</span>
+							<span class="pull-left time">浏览 #(post.views)</span>
+							#if(post.tags)
+							<ul class="tags">
+								#for(tag : sk.convertStrToArray(post.tags,","))
+								<li><a class="tag tag-sm" href="/tags/view/#(tag)">#(tag)</a></li>
+								#end
+							</ul>
+							#end
+							<span class="pull-right action-box"></span>
+						</div>
+						<div class="post-frame">
+							<div class="thumbs">
+							</div>
+							<div class="post-content">
+								#(post.content)
+							</div>
+							<div class="tc mt40">
+								<a data-id="4499" rel="favor" class="icon-ding dib" href="javascript:void(0);"></a>
+								<p class="tc">
+								<em id="favors">#(post.likeCount)</em>
+								人赞过
+								</p>
+							</div>
+
+							<div class="post-footer">
+								#include("/_view/view/common/share.html")
+							</div>
+
+						</div>
+					</div>
+
+					<div id="chat" class="chats shadow-box">
+					    <div class="chat_other">
+					        <h4>全部评论: <i id="chat_count">#(commentNum)</i> 条</h4>
+					    </div>
+					    #if(!replyPage.list)
+					    <ul class="its"><li><p>还没有评论, 快来占沙发吧!</p></li></ul>
+					    #end
+					    <div id="pager" class="text-center"></div>
+					    <div class="cbox-wrap">
+					        <div class="bottom_partcontent">  
+						  		<div class="footer_communitypart">
+						  			#include("/_view/view/common/comment.html")
+						  			 <div class="cbox-title">我有话说(提示：您可以使用“@用户昵称”的方式进行回复哦): <span id="chat_reply" style="display:none;">@<i id="chat_to"></i></span>
+					        		</div>
+						  			<div style="margin-bottom: 20px; width: 100%;">
+						  			  <span id="comment-span" name="comment-span"></span>
+									  <textarea class="layui-textarea" id="articleComment" style="display: none"></textarea>
+									  <button class="layui-btn fr" id="submit_btn">发表</button>
+									</div> 
+						  		</div>
+						  </div>
+					    </div>
+					</div>
+				</div>
+
+				<div class="col-xs-12 col-md-3 side-right side-right-edit">
+				<!--楼主-->
+				#include("/_view/view/common/author.html")
+				<!--热门用户-->
+				#include("/_view/index/common/hot_user.html")
+				<!--热门标签-->
+				#include("/_view/index/common/hot_tag.html")
+				<!--热门话题-->
+				#include("/_view/index/common/hot_post.html")	
+				<!--最新发表-->
+				#include("/_view/index/common/new_post.html")
+				</div>
+			</div>
+
+			
+		</div>
+	</div>
+</div>
+
+#end
+#define js()
+<script src="/assets/layui/lay/dest/layui.all.js"></script> 
+<script type="text/javascript">
+
+	$(function(){
+		//评论
+		var map = {
+				isLoading: false
+				, submit_btn: $("#submit_btn")
+			};
+
+		$("#submit_btn").bind("click", function() {
+			reply("/comment/saveReply", "#(post.id)", map);
+			$('.no-comment').hide();
+		});
+
+		$("#articleComment").bind("keydown", function(e) {
+			if ((e.ctrlKey || e.metaKey) && e.keyCode==13) {    // ctrl + 回车发送消息
+				reply("/comment/saveReply", "#(post.id)", map);  // $("#submit_btn").trigger("click");   // 简写 $("#submit_btn").click();
+			}
+			$('.no-comment').hide();
+		});
+		
+		//绑定点赞事件
+        var bMap = {
+            btn: $(".icon-ding")
+            , isLoading: false
+            , isAdd: #(ret.isLikeAdd)
+        };
+        bMap.btn.bind("click", function() {
+        	console.log("click");
+            like('posts', #(post.id), bMap);
+        });
+	});
+	
+		
+</script>
+#end

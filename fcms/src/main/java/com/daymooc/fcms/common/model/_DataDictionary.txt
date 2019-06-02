@@ -1,0 +1,262 @@
+Table: article_type
+--------------+--------------+------+-----+---------+---------
+ Field        | Type         | Null | Key | Default | Remarks 
+--------------+--------------+------+-----+---------+---------
+ id           | INT(10)      | NO   | PRI |         | 文章类别ID  
+ article_type | VARCHAR(255) | NO   |     |         | 文章分类    
+--------------+--------------+------+-----+---------+---------
+
+Table: auth_code
+-----------+-------------+------+-----+---------+---------
+ Field     | Type        | Null | Key | Default | Remarks 
+-----------+-------------+------+-----+---------+---------
+ id        | VARCHAR(33) | NO   | PRI |         |         
+ expireAt  | BIGINT(19)  | NO   |     |         |         
+ accountId | INT(10)     | NO   |     |         |         
+ type      | INT(10)     | NO   |     |         |         
+-----------+-------------+------+-----+---------+---------
+
+Table: friend
+----------+--------------+------+-----+---------+---------
+ Field    | Type         | Null | Key | Default | Remarks 
+----------+--------------+------+-----+---------+---------
+ userId   | INT(10)      | NO   | PRI |         | 用户ID    
+ friendId | INT(10)      | NO   | PRI |         | 朋友ID    
+ createAt | DATETIME(19) | NO   |     |         | 创建时间    
+----------+--------------+------+-----+---------+---------
+
+Table: friend_link
+-----------+--------------+------+-----+---------+---------
+ Field     | Type         | Null | Key | Default | Remarks 
+-----------+--------------+------+-----+---------+---------
+ id        | INT(10)      | NO   | PRI |         | ID      
+ logo      | VARCHAR(255) | YES  |     |         | 友情链接logo
+ site_name | VARCHAR(255) | NO   |     |         | 网站名     
+ url       | VARCHAR(255) | NO   |     |         | 网站url   
+ sort      | INT(10)      | YES  |     |         | 顺序      
+-----------+--------------+------+-----+---------+---------
+
+Table: like_message_log
+-----------+--------------+------+-----+---------+---------
+ Field     | Type         | Null | Key | Default | Remarks 
+-----------+--------------+------+-----+---------+---------
+ accountId | INT(10)      | NO   | PRI |         |         
+ refType   | INT(10)      | NO   | PRI |         |         
+ refId     | INT(10)      | NO   | PRI |         |         
+ createAt  | DATETIME(19) | NO   |     |         | creatAt用于未来清除该表中时间比较久远的记录
+-----------+--------------+------+-----+---------+---------
+
+Table: login_log
+-----------+--------------+------+-----+---------+---------
+ Field     | Type         | Null | Key | Default | Remarks 
+-----------+--------------+------+-----+---------+---------
+ id        | BIGINT(19)   | NO   | PRI |         | 主键      
+ accountId | INT(10)      | NO   |     |         |         
+ loginAt   | DATETIME(19) | NO   |     |         |         
+ ip        | VARCHAR(100) | YES  |     |         |         
+-----------+--------------+------+-----+---------+---------
+
+Table: menu
+--------+--------------+------+-----+---------+---------
+ Field  | Type         | Null | Key | Default | Remarks 
+--------+--------------+------+-----+---------+---------
+ id     | INT(10)      | NO   | PRI |         |         
+ name   | VARCHAR(18)  | YES  |     |         |         
+ target | VARCHAR(18)  | YES  |     |         |         
+ url    | VARCHAR(255) | YES  |     |         |         
+ weight | INT(10)      | NO   |     |         |         
+ status | INT(10)      | NO   |     |         |         
+--------+--------------+------+-----+---------+---------
+
+Table: message
+----------+--------------+------+-----+---------+---------
+ Field    | Type         | Null | Key | Default | Remarks 
+----------+--------------+------+-----+---------+---------
+ id       | INT(10)      | NO   | PRI |         |         
+ user     | INT(10)      | NO   |     |         | 消息的主人   
+ friend   | INT(10)      | NO   |     |         | 对方的ID   
+ sender   | INT(10)      | NO   |     |         | 发送者     
+ receiver | INT(10)      | NO   |     |         | 接收者     
+ type     | TINYINT(3)   | NO   |     |         | 0：普通消息，1：系统消息
+ content  | TEXT(65535)  | NO   |     |         |         
+ createAt | DATETIME(19) | NO   |     |         | 创建时间    
+----------+--------------+------+-----+---------+---------
+
+Table: news_feed
+---------------+--------------+------+-----+---------+---------
+ Field         | Type         | Null | Key | Default | Remarks 
+---------------+--------------+------+-----+---------+---------
+ id            | INT(10)      | NO   | PRI |         |         
+ accountId     | INT(10)      | NO   |     |         | 动态创建者   
+ refType       | TINYINT(3)   | NO   |     |         | 动态引用类型  
+ refId         | INT(10)      | NO   |     | 0       | 动态引用所关联的 id
+ refParentType | TINYINT(3)   | NO   |     | 0       | reply所属的贴子类型, 与type 字段填的值一样
+ refParentId   | INT(10)      | NO   |     | 0       |         
+ createAt      | DATETIME(19) | NO   |     |         | 动态创建时间  
+---------------+--------------+------+-----+---------+---------
+
+Table: post_type
+-----------+--------------+------+-----+---------+---------
+ Field     | Type         | Null | Key | Default | Remarks 
+-----------+--------------+------+-----+---------+---------
+ id        | INT(10)      | NO   | PRI |         | post_type的ID
+ post_type | VARCHAR(255) | NO   |     |         | post_type类型
+-----------+--------------+------+-----+---------+---------
+
+Table: posts
+--------------+----------------------+------+-----+---------+---------
+ Field        | Type                 | Null | Key | Default | Remarks 
+--------------+----------------------+------+-----+---------+---------
+ id           | INT(10)              | NO   | PRI |         | 发布内容ID  
+ userId       | INT(10)              | NO   |     |         | 作者      
+ comments     | INT(10)              | YES  |     |         | 评论数     
+ content      | LONGTEXT(2147483647) | NO   |     |         | 内容      
+ createAt     | DATETIME(19)         | NO   |     |         | 创建时间    
+ images       | VARCHAR(255)         | YES  |     |         | 图片      
+ tags         | VARCHAR(255)         | YES  |     |         | 标签      
+ title        | VARCHAR(255)         | NO   |     |         | 标题      
+ views        | INT(10)              | NO   |     | 0       | 浏览数     
+ likeCount    | INT(10)              | NO   |     | 0       | 点赞数     
+ status       | INT(10)              | NO   |     | 0       | 状态，1表示发布，0表示草稿，2表示锁定
+ summary      | VARCHAR(255)         | YES  |     |         | 摘要      
+ post_type    | INT(10)              | NO   |     |         | 发布的类型，比如文章，图片，视频等
+ last_images  | VARCHAR(255)         | YES  |     |         | 最后一张图片  
+ video        | VARCHAR(255)         | YES  |     |         | 视频地址    
+ article_type | INT(10)              | YES  |     |         | 文章分类，可为空，发布文章时才需要选择分类
+ privacy      | INT(10)              | YES  |     |         | 权限，0表示公开，1表示不公开
+--------------+----------------------+------+-----+---------+---------
+
+Table: posts_comment
+----------+--------------+------+-----+---------+---------
+ Field    | Type         | Null | Key | Default | Remarks 
+----------+--------------+------+-----+---------+---------
+ id       | INT(10)      | NO   | PRI |         | 评论ID    
+ userId   | INT(10)      | NO   |     |         | 作者Id    
+ content  | TEXT(65535)  | NO   |     |         | 评论内容    
+ createAt | DATETIME(19) | NO   |     |         | 创建时间    
+ postId   | INT(10)      | NO   |     |         | POST的ID 
+ toId     | INT(10)      | YES  |     |         | 要回复的评论的id
+----------+--------------+------+-----+---------+---------
+
+Table: posts_like
+----------+--------------+------+-----+---------+---------
+ Field    | Type         | Null | Key | Default | Remarks 
+----------+--------------+------+-----+---------+---------
+ userId   | INT(10)      | NO   | PRI |         | 点赞用户ID  
+ refId    | INT(10)      | NO   | PRI |         | 点赞关联表ID,这里统一为posts的ID
+ createAt | DATETIME(19) | NO   |     |         | 点赞时间    
+----------+--------------+------+-----+---------+---------
+
+Table: refer_me
+----------------+--------------+------+-----+---------+---------
+ Field          | Type         | Null | Key | Default | Remarks 
+----------------+--------------+------+-----+---------+---------
+ id             | INT(10)      | NO   | PRI |         |         
+ referAccountId | INT(10)      | NO   |     |         | 接收者账号id 
+ newsFeedId     | INT(10)      | NO   |     |         | newsFeedId
+ type           | TINYINT(3)   | NO   |     |         | @我、评论我等等的refer类型
+ createAt       | DATETIME(19) | NO   |     |         |         
+----------------+--------------+------+-----+---------+---------
+
+Table: remind
+-----------+---------+------+-----+---------+---------
+ Field     | Type    | Null | Key | Default | Remarks 
+-----------+---------+------+-----+---------+---------
+ accountId | INT(10) | NO   | PRI |         | 用户账号id，必须手动指定，不自增
+ referMe   | INT(10) | NO   |     | 0       | 提到我的消息条数
+ message   | INT(10) | NO   |     | 0       | 私信条数    
+ fans      | INT(10) | NO   |     | 0       | 粉丝增加个数  
+-----------+---------+------+-----+---------+---------
+
+Table: role
+-----------+----------+------+-----+---------+---------
+ Field     | Type     | Null | Key | Default | Remarks 
+-----------+----------+------+-----+---------+---------
+ id        | INT(10)  | NO   | PRI |         |         
+ role_name | CHAR(10) | NO   |     |         |         
+-----------+----------+------+-----+---------+---------
+
+Table: sensitive_words
+-------------+-------------+------+-----+---------+---------
+ Field       | Type        | Null | Key | Default | Remarks 
+-------------+-------------+------+-----+---------+---------
+ id          | INT(10)     | NO   | PRI |         |         
+ word        | VARCHAR(32) | NO   |     |         |         
+ status      | TINYINT(3)  | NO   |     |         |         
+ word_pinyin | VARCHAR(60) | NO   |     |         | 敏感词     
+-------------+-------------+------+-----+---------+---------
+
+Table: session
+-----------+-------------+------+-----+---------+---------
+ Field     | Type        | Null | Key | Default | Remarks 
+-----------+-------------+------+-----+---------+---------
+ id        | VARCHAR(33) | NO   | PRI |         |         
+ accountId | INT(10)     | NO   |     |         |         
+ expireAt  | BIGINT(19)  | NO   |     |         |         
+-----------+-------------+------+-----+---------+---------
+
+Table: site_info
+-------------+--------------+------+-----+---------+---------
+ Field       | Type         | Null | Key | Default | Remarks 
+-------------+--------------+------+-----+---------+---------
+ id          | INT(10)      | NO   | PRI |         |         
+ title       | VARCHAR(255) | YES  |     |         | 网站标题    
+ description | TEXT(65535)  | YES  |     |         | 网站描述    
+ keywords    | VARCHAR(255) | YES  |     |         | 关键词     
+ logo        | VARCHAR(255) | YES  |     |         | 网站logo  
+-------------+--------------+------+-----+---------+---------
+
+Table: tags
+--------+--------------+------+-----+---------+---------
+ Field  | Type         | Null | Key | Default | Remarks 
+--------+--------------+------+-----+---------+---------
+ id     | INT(10)      | NO   | PRI |         | ID      
+ name   | VARCHAR(255) | NO   |     |         | 标签名     
+ posts  | INT(10)      | YES  |     | 0       | 发表数     
+ locked | INT(10)      | YES  |     | 0       | 是否锁定，0表示不锁定，1表示锁定
+--------+--------------+------+-----+---------+---------
+
+Table: upload_counter
+------------+-------------+------+-----+---------+---------
+ Field      | Type        | Null | Key | Default | Remarks 
+------------+-------------+------+-----+---------+---------
+ uploadType | VARCHAR(50) | NO   | PRI |         |         
+ counter    | INT(10)     | NO   |     |         |         
+ descr      | VARCHAR(50) | NO   |     |         |         
+------------+-------------+------+-----+---------+---------
+
+Table: user
+-----------+--------------+------+-----+---------+---------
+ Field     | Type         | Null | Key | Default | Remarks 
+-----------+--------------+------+-----+---------+---------
+ id        | INT(10)      | NO   | PRI |         | 用户ID    
+ email     | VARCHAR(255) | NO   |     |         | 用户邮箱    
+ password  | VARCHAR(255) | NO   |     |         | 密码      
+ salt      | VARCHAR(255) | NO   |     |         | 盐值      
+ nickName  | VARCHAR(255) | NO   |     |         | 昵称      
+ userName  | VARCHAR(255) | NO   |     |         | 用户名     
+ avatar    | VARCHAR(255) | YES  |     |         | 头像      
+ gender    | INT(10)      | YES  |     |         | 性别      
+ roleId    | INT(10)      | YES  |     |         | 角色ID    
+ mobile    | VARCHAR(11)  | YES  |     |         | 手机号     
+ signature | VARCHAR(255) | YES  |     |         | 签名      
+ createAt  | DATETIME(19) | NO   |     |         | 创建时间    
+ status    | INT(10)      | YES  |     |         | 用户状态    
+ ip        | VARCHAR(255) | NO   |     |         | 注册IP    
+ likeCount | INT(10)      | YES  |     | 0       | 获赞数     
+-----------+--------------+------+-----+---------+---------
+
+Table: users_open_oauth
+---------------+--------------+------+-----+---------+---------
+ Field         | Type         | Null | Key | Default | Remarks 
+---------------+--------------+------+-----+---------+---------
+ id            | BIGINT(19)   | NO   | PRI |         |         
+ access_token  | VARCHAR(255) | YES  |     |         |         
+ expire_in     | VARCHAR(255) | YES  |     |         |         
+ oauth_code    | VARCHAR(255) | YES  |     |         |         
+ oauth_type    | INT(10)      | YES  |     |         |         
+ oauth_user_id | VARCHAR(255) | YES  |     |         |         
+ refresh_token | VARCHAR(255) | YES  |     |         |         
+ user_id       | BIGINT(19)   | YES  |     |         |         
+---------------+--------------+------+-----+---------+---------
+

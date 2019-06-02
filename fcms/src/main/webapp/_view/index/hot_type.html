@@ -1,0 +1,131 @@
+#@layout()
+
+#define main()
+<div class="wrap" id="wrap">
+	<div class="container">
+		<div class="row">
+			<div class="main clearfix">
+				<!-- posts部分 -->
+				<div class="col-xs-12 col-md-9 side-left">
+					<div class="shadow-box">
+						<!-- tabs -->
+						<div class="filter">
+							<ul>
+								<li>
+									<a href="/postType/#(postType)"><i class="fa fa-newspaper-o"></i>最新的</a>
+								</li>
+								<li>
+									<a href="/hot_type/#(postType)" class="active"><i class="fa fa-fire"></i>热门的</a>
+								</li>
+							</ul>
+						</div>
+						<div class="posts-list">
+							#for(post : postPage.getList())
+							<div class="posts-item">
+								<div class="posts-info clearfix">
+									<div class="users">
+										<a href="/user/#(post.userId)">
+											<div class="avatar">
+												<img class="img-circle" src="#(post.avatar)">
+											</div>
+											<div class="info">
+												<strong>#(post.nickName)</strong>
+												<time>#(timeKit.formatOfDate(null, post.createAt))前</time>
+												
+											</div>
+										</a>
+									</div>
+									<div class="counts">
+							        	<span class="act"><i class="fa fa-eye"></i> #(post.views)</span>
+							            <span class="act"><i class="fa fa-heart-o"></i> #(post.likeCount)</span>
+							            <span class="act"><i class="fa fa-comment-o"></i> #(post.comments)</span>
+							        </div>
+								</div>
+								<div class="posts-summary">
+									#if(post.postType == 1)
+										<a href="/view/article/#(post.id)">
+									#elseif(post.postType == 2)
+										<a href="/view/video/#(post.id)">
+									#elseif(post.postType == 3)
+										<a href="/view/gallery/#(post.id)">
+									#elseif(post.postType == 4)
+										<a href="/view/question/#(post.id)">
+									#end
+										<div class="title">
+											<!-- 分类 -->
+											#if(post.postType == 1)	
+											<span class="label label-success">文</span>
+											#elseif(post.postType == 2)
+											<span class="label label-success">视</span>
+											#elseif(post.postType == 3)
+											<span class="label label-success">图</span>
+											#elseif(post.postType == 4)
+											<span class="label label-success">问</span>
+											#end
+											<h2>#(post.title)</h2>
+										</div>
+										<div class="excerpt wordbredk">
+											#(post.summary)
+											...
+										</div>
+										</a>
+										#if(post.images)
+										<div class="summary-img ">
+											#for(img : sk.convertStrToArray(post.images,","))
+												#if(for.count < 4)
+												<img class="pimg" src="#(img)" title="点击看大图">
+												#end
+											#end
+										</div>
+										#end
+										<!--标签-->
+										<div class="foot-block clearfix">
+											#if(post.tags)
+											<ul class="tags">
+												<!--注意，这里由于数据库里存的是字符串，所以先通过共享类把字符串转为数组，再做循环-->
+												#for(tag : (post.tags).split(","))
+												<li><a href="/tags/view/#(tag)" class="tag tag-sm">#(tag)</a></li>
+												#end
+											</ul>
+											#end
+										</div>
+										
+								</div>
+							</div>
+							#end
+						</div>
+					</div>
+				</div>
+				<!--热门用户-->
+				<div class="col-xs-12 col-md-3 side-right side-right-edit">
+				#include("/_view/index/common/hot_user.html")
+				<!--热门标签-->
+				#include("/_view/index/common/hot_tag.html")
+				<!--文章分类-->
+				#include("/_view/index/common/post_type.html")
+				<!--热门话题-->
+				#include("/_view/index/common/hot_post.html")	
+				<!--最新发表-->
+				#include("/_view/index/common/new_post.html")
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--图片弹出-->
+<div id="outerdiv" style="position:fixed;top:0;left:0;background:rgba(0,0,0,0.7);z-index:2;width:100%;height:100%;display:none;">
+	<div id="innerdiv" style="position:absolute;"><img id="bigimg" style="border:5px solid #fff;" src="" />
+	</div>
+</div> 
+#end
+
+#define js()
+<script type="text/javascript">
+  $(function(){  
+        $(".pimg").click(function(){  
+            var _this = $(this);//将当前的pimg元素作为_this传入函数  
+            imgShow("#outerdiv", "#innerdiv", "#bigimg", _this);  
+        });  
+    }); 
+</script>
+#end

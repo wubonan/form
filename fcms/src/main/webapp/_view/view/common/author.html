@@ -1,0 +1,103 @@
+<div class="widget-box shadow-box">
+	<img src="/assets/images/lz-icon.png" class="centertop_imgone">
+	<ul class="list-group about-user">
+		<li class="list-group-item user-card">
+			<div class="ava">
+				<a href="/user/#(post.userId)"> <img class="img-circle" src="#(post.avatar)">
+				</a>
+			</div>
+			<div class="user-info">
+				<div class="nk mb10">#(post.nickName)</div>
+				<div class="mb6">
+					<a class="btn btn-primary btn-xs" href="/user/#(post.userId)" data-id="1005" rel="follow">Ta的主页</a>
+					<a class="btn btn-success btn-xs ml10 follow" href="javascript:void(0);" onclick="followUser(#(post.userId))" rel="follow">+
+						关注Ta</a>
+				</div>
+			</div>
+		</li>
+
+		<li class="list-group-item">
+			<div class="user-datas">
+				<ul>
+					<li><strong>#(postNum)</strong><span>发布</span></li>
+					<li class="noborder"><strong>#(totalCommentNum)</strong><span>评论</span></li>
+				</ul>
+			</div>
+		</li>
+	</ul>
+</div>
+
+<script type="text/javascript" src="/assets/js/jcms-user-friend-relation.js?v=1"></script>
+<script>
+//设置关注状态
+$(document).ready(function(){
+	setFollowUserStatus();
+});
+
+
+function setFollowUserStatus()
+{
+		if(#(followUser))
+		{
+			$(".follow").html('<i class="icon-check"></i>已关注');
+				$(".follow").hover(function(){
+					$(this).html('取消关注');
+				});
+		}	
+		else{
+			$(".follow").html('<i class="icon-group_add"></i>+关注Ta');
+		}
+}
+
+//follow
+function followUser(userId)
+{
+	$.ajax("/user/follow/"+userId, {
+		type: "POST"
+		, cache: false
+		, dataType: "json"
+		, data: {
+			
+		}
+		, beforeSend: function() {
+			//设置关注状态
+		}
+		, success: function(ret) {
+			if(ret.followUser)
+			{
+				$(".follow").html('<i class="icon-check"></i>已关注');
+			}
+			else
+			{
+				console.log("no");
+				$(".follow").html('<i class="icon-group_add"></i>+关注Ta');
+			}
+			
+			if (ret.isOk) {
+				layer.msg(ret.msg, {
+					shift: 6
+					, shade: 0.3
+					, time: 2000
+					, offset: "165px"
+					, closeBtn: 1
+					, shadeClose: true
+				});
+				return ;					
+				
+			} else {
+				layer.msg(ret.msg, {
+					shift: 6
+					, shade: 0.3
+					, time: 2000
+					, offset: "165px"
+					, closeBtn: 1
+					, shadeClose: true
+				});
+				return ;
+			}
+		}
+		, complete: function() {
+		}
+	});
+}
+</script>
